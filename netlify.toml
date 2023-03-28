@@ -4,3 +4,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+[[redirects]]
+  from = "/chats"
+  to = "/index.html"
+  status = 200
