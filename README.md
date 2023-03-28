@@ -1,6 +1,6 @@
 # Приложение "Мессенджер"
 
-Данная ветка задеплоена 
+Данная ветка задеплоена [тут](https://deploy--thriving-blini-92b386.netlify.app/).
 
 Используемые макеты лежат [тут](https://www.figma.com/file/7OcXB01uzGMCjeEVUtX2qO/%D0%A8%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD-%D1%87%D0%B0%D1%82%D0%B0?node-id=0-1&t=X1dZG2phkR5vm5gL-0).
 
@@ -14,10 +14,10 @@
 
 ```
 npm install
-npm run dev
+npm run start
 ```
 
-После запуска приложение будет доступно по адресу `http://localhost:1234`.
+После запуска приложение будет доступно по адресу `http://localhost:3000`.
 
 ## Технологии
 

@@ -7,20 +7,23 @@ export const ChangePassword = () => {
 			{
 				title: "Старый пароль",
 				value: "********",
-				disabled: "disabled"
+				disabled: "disabled",
+				name: "password"
 			},
 			{
 				title: "Новый пароль",
-				value: "**********"
+				value: "**********",
+				name: "password"
 			},
 			{
 				title: "Повторите новый пароль",
-				value: "**********"
+				value: "**********",
+				name: "password"
 			}
 		],
 		pathData: [
 			{
-				type: '<button>Сохранить</button>'
+				type: '<button type="submit">Сохранить</button>'
 			},
 		],
 		button: "button",

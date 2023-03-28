@@ -28,15 +28,17 @@ const tabs = [
 ]
 
 export const tmpl = `
-<div class="${styles.root}">
-	<ul>
-	{{#getJsonContext '${JSON.stringify(tabs)}'}}
-		{{#each this}}
-			<div>	
-				<li><a href='/{{link}}'>{{label}}</a></li>
-			</div>
-		{{/each}}
-	{{/getJsonContext}}
-	</ul>
-</div>
+<header class="${styles.root}">
+	<nav>
+		<ul>
+			{{#getJsonContext '${JSON.stringify(tabs)}'}}
+				{{#each this}}
+					<div>	
+						<li><a href='/{{link}}'>{{label}}</a></li>
+					</div>
+				{{/each}}
+			{{/getJsonContext}}
+		</ul>
+	</nav>
+</header>
 `

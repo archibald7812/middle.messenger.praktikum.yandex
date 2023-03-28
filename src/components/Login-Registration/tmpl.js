@@ -2,7 +2,7 @@ import styles from "./index.module.css"
 
 export const templ = `
 	{{> NavBar}}
-	<div class="${styles.root}">
+	<main class="${styles.root}">
 		<div class="${styles.main}">
 			<div class="${styles.topSection}">
 				<h2>{{ title }}</h2>
@@ -15,12 +15,12 @@ export const templ = `
 						<input type="{{type}}" name="{{name}}"/>
 					</div>
 					{{/ each}}
+					<button type="submit">{{ buttonTitle }}</button>
 				</form>
 			</div>
 			<div class="${styles.bottomSection}">
-				<button>{{ buttonTitle }}</button>
 				<a href="/{{link}}">{{ linkTitle }}</a>
 			</div>
 		</div>
-	</div>
+	</main>
 `

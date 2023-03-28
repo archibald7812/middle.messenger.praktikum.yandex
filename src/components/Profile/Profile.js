@@ -32,7 +32,8 @@ export const Profile = () => {
 			{
 				title: "Имя в чате",
 				value: "Иван",
-				disabled: "disabled"
+				disabled: "disabled",
+				name: "display_name"
 			},
 			{
 				title: "Телефон",

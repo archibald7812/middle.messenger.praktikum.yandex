@@ -6,13 +6,16 @@
 	color: $standartGreen;
 	display: flex;
 	align-items: center;
-	ul {
+	nav {
 		width: 40%;
-		display: flex;
-		justify-content: space-around;
-		a {
-			color: $standartGreen;
-			font-weight: bold;
+		ul {
+			width: 100%;
+			display: flex;
+			justify-content: space-around;
+			a {
+				color: $standartGreen;
+				font-weight: bold;
+			}
 		}
 	}
 }
