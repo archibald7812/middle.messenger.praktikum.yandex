@@ -3,8 +3,9 @@ import styles from "./index.module.css"
 export const templ = `
 	{{> NavBar}}
 	{{> BackButton}}
-	<div class="${styles.root}">
+	<main class="${styles.root}">
 		<div class="${styles.main}">
+		<form>
 			<div class="${styles.topSection}">
 				{{{avatar}}}
 				<h2>{{name}}</h2>
@@ -24,6 +25,7 @@ export const templ = `
 					</div>
 				{{/ each}}
 			</div>
+		</form>
 		</div>
-	</div>
+	</main>
 `

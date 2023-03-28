@@ -7,37 +7,42 @@ export const ChangeData = () => {
 		userData: [
 			{
 				title: "Почта",
-				value: "pochta@yandex.ru"
+				value: "pochta@yandex.ru",
+				name: "email"
 			},
 			{
 				title: "Логин",
-				value: "ivanivanov"
+				value: "ivanivanov",
+				name: "login"
 			},
 			{
 				title: "Имя",
-				value: "Иван"
+				value: "Иван",
+				name: "first_name"
 			},
 			{
 				title: "Фамилия",
-				value: "Иванов"
+				value: "Иванов",
+				name: "second_name"
 			},
 			{
 				title: "Имя в чате",
-				value: "Иван"
+				value: "Иван",
+				name: "display_name"
 			},
 			{
 				title: "Телефон",
-				value: "+7 (909) 967 30 30"
+				value: "+7 (909) 967 30 30",
+				name: "phone"
 			},
 		],
 		pathData: [
 			{
-				type: '<button>Сохранить</button>',
+				type: '<button type="submit">Сохранить</button>',
 			},
 		],
 		button: "button",
 		avatar: '<input type="file"/>',
-
 	}
 
 	return Handlebars.compile(templ)(parameters)

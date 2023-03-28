@@ -602,7 +602,7 @@ const App = ()=>{
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./partials/NavBar/NavBar":"3oF82","./components/Login-Registration/Login":"4ykO4","./components/Login-Registration/Registration":"f37Zr","./components/Profile/Profile":"hHroY","./components/Profile/ChangePassword":"fZlFh","./partials/BackButton/BackButton":"16c1m","./components/Profile/ChangeData":"31RNZ","./components/Chats/Chats":"leNQC","./components/404-500/404":"aukF9","./components/404-500/500":"MePAj"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/Login-Registration/Login":"4ykO4","./components/Login-Registration/Registration":"f37Zr","./partials/NavBar/NavBar":"3oF82","./components/Profile/Profile":"hHroY","./components/Profile/ChangePassword":"fZlFh","./partials/BackButton/BackButton":"16c1m","./components/Profile/ChangeData":"31RNZ","./components/Chats/Chats":"leNQC","./components/404-500/404":"aukF9","./components/404-500/500":"MePAj"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -632,21 +632,36 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"3oF82":[function(require,module,exports) {
+},{}],"4ykO4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "NavBar", ()=>NavBar);
-var _tmpl = require("./tmpl");
+parcelHelpers.export(exports, "Login", ()=>Login);
 var _handlebars = require("handlebars");
 var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-const NavBar = ()=>{
-    (0, _handlebarsDefault.default).registerHelper("getJsonContext", function(data, options) {
-        return options.fn(JSON.parse(data));
-    });
-    (0, _handlebarsDefault.default).registerPartial("NavBar", (0, _tmpl.tmpl));
+var _tmpl = require("./tmpl");
+const Login = ()=>{
+    const parameters = {
+        title: "Вход",
+        inputs: [
+            {
+                title: "Логин",
+                type: "text",
+                name: "login"
+            },
+            {
+                title: "Пароль",
+                type: "password",
+                name: "password"
+            }
+        ],
+        buttonTitle: "Вход",
+        linkTitle: "Еще нет аккаунта?",
+        link: "registration"
+    };
+    return (0, _handlebarsDefault.default).compile((0, _tmpl.templ))(parameters);
 };
 
-},{"handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./tmpl":"aCWcJ"}],"i0QfX":[function(require,module,exports) {
+},{"handlebars":"i0QfX","./tmpl":"dRnA8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i0QfX":[function(require,module,exports) {
 // USAGE:
 // var handlebars = require('handlebars');
 /* eslint-disable no-var */ // var local = handlebars.create();
@@ -11963,85 +11978,7 @@ PrintVisitor.prototype.HashPair = function(pair) {
 },{"8f18b91e6f03e17":"fk5sS"}],"jhUEF":[function(require,module,exports) {
 "use strict";
 
-},{}],"aCWcJ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "tmpl", ()=>tmpl);
-var _indexModuleCss = require("./index.module.css");
-var _indexModuleCssDefault = parcelHelpers.interopDefault(_indexModuleCss);
-const tabs = [
-    {
-        label: "Вход",
-        link: "log-in"
-    },
-    {
-        label: "Регистрация",
-        link: "registration"
-    },
-    {
-        label: "Профиль",
-        link: "profile"
-    },
-    {
-        label: "Чаты",
-        link: "chats"
-    },
-    {
-        label: "404",
-        link: "404"
-    },
-    {
-        label: "500",
-        link: "500"
-    }
-];
-const tmpl = `
-<div class="${(0, _indexModuleCssDefault.default).root}">
-	<ul>
-	{{#getJsonContext '${JSON.stringify(tabs)}'}}
-		{{#each this}}
-			<div>	
-				<li><a href='/{{link}}'>{{label}}</a></li>
-			</div>
-		{{/each}}
-	{{/getJsonContext}}
-	</ul>
-</div>
-`;
-
-},{"./index.module.css":"9faxU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9faxU":[function(require,module,exports) {
-module.exports["root"] = `Hg5ZSq_root`;
-
-},{}],"4ykO4":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Login", ()=>Login);
-var _handlebars = require("handlebars");
-var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-var _tmpl = require("./tmpl");
-const Login = ()=>{
-    const parameters = {
-        title: "Вход",
-        inputs: [
-            {
-                title: "Логин",
-                type: "text",
-                name: "login"
-            },
-            {
-                title: "Пароль",
-                type: "password",
-                name: "password"
-            }
-        ],
-        buttonTitle: "Вход",
-        linkTitle: "Еще нет аккаунта?",
-        link: "registration"
-    };
-    return (0, _handlebarsDefault.default).compile((0, _tmpl.templ))(parameters);
-};
-
-},{"handlebars":"i0QfX","./tmpl":"dRnA8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dRnA8":[function(require,module,exports) {
+},{}],"dRnA8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "templ", ()=>templ);
@@ -12049,7 +11986,7 @@ var _indexModuleCss = require("./index.module.css");
 var _indexModuleCssDefault = parcelHelpers.interopDefault(_indexModuleCss);
 const templ = `
 	{{> NavBar}}
-	<div class="${(0, _indexModuleCssDefault.default).root}">
+	<main class="${(0, _indexModuleCssDefault.default).root}">
 		<div class="${(0, _indexModuleCssDefault.default).main}">
 			<div class="${(0, _indexModuleCssDefault.default).topSection}">
 				<h2>{{ title }}</h2>
@@ -12062,22 +11999,22 @@ const templ = `
 						<input type="{{type}}" name="{{name}}"/>
 					</div>
 					{{/ each}}
+					<button type="submit">{{ buttonTitle }}</button>
 				</form>
 			</div>
 			<div class="${(0, _indexModuleCssDefault.default).bottomSection}">
-				<button>{{ buttonTitle }}</button>
 				<a href="/{{link}}">{{ linkTitle }}</a>
 			</div>
 		</div>
-	</div>
+	</main>
 `;
 
 },{"./index.module.css":"22wRB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"22wRB":[function(require,module,exports) {
-module.exports["mainSection"] = `_2zN2hW_mainSection`;
 module.exports["main"] = `_2zN2hW_main`;
 module.exports["topSection"] = `_2zN2hW_topSection`;
-module.exports["bottomSection"] = `_2zN2hW_bottomSection`;
+module.exports["mainSection"] = `_2zN2hW_mainSection`;
 module.exports["root"] = `_2zN2hW_root`;
+module.exports["bottomSection"] = `_2zN2hW_bottomSection`;
 
 },{}],"f37Zr":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -12133,7 +12070,72 @@ const Registration = ()=>{
     return (0, _handlebarsDefault.default).compile((0, _tmpl.templ))(parameters);
 };
 
-},{"handlebars":"i0QfX","./tmpl":"dRnA8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hHroY":[function(require,module,exports) {
+},{"handlebars":"i0QfX","./tmpl":"dRnA8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3oF82":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "NavBar", ()=>NavBar);
+var _tmpl = require("./tmpl");
+var _handlebars = require("handlebars");
+var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
+const NavBar = ()=>{
+    (0, _handlebarsDefault.default).registerHelper("getJsonContext", function(data, options) {
+        return options.fn(JSON.parse(data));
+    });
+    (0, _handlebarsDefault.default).registerPartial("NavBar", (0, _tmpl.tmpl));
+};
+
+},{"./tmpl":"aCWcJ","handlebars":"i0QfX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aCWcJ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "tmpl", ()=>tmpl);
+var _indexModuleCss = require("./index.module.css");
+var _indexModuleCssDefault = parcelHelpers.interopDefault(_indexModuleCss);
+const tabs = [
+    {
+        label: "Вход",
+        link: "log-in"
+    },
+    {
+        label: "Регистрация",
+        link: "registration"
+    },
+    {
+        label: "Профиль",
+        link: "profile"
+    },
+    {
+        label: "Чаты",
+        link: "chats"
+    },
+    {
+        label: "404",
+        link: "404"
+    },
+    {
+        label: "500",
+        link: "500"
+    }
+];
+const tmpl = `
+<header class="${(0, _indexModuleCssDefault.default).root}">
+	<nav>
+		<ul>
+			{{#getJsonContext '${JSON.stringify(tabs)}'}}
+				{{#each this}}
+					<div>	
+						<li><a href='/{{link}}'>{{label}}</a></li>
+					</div>
+				{{/each}}
+			{{/getJsonContext}}
+		</ul>
+	</nav>
+</header>
+`;
+
+},{"./index.module.css":"9faxU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9faxU":[function(require,module,exports) {
+module.exports["root"] = `Hg5ZSq_root`;
+
+},{}],"hHroY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Profile", ()=>Profile);
@@ -12209,8 +12211,9 @@ var _indexModuleCssDefault = parcelHelpers.interopDefault(_indexModuleCss);
 const templ = `
 	{{> NavBar}}
 	{{> BackButton}}
-	<div class="${(0, _indexModuleCssDefault.default).root}">
+	<main class="${(0, _indexModuleCssDefault.default).root}">
 		<div class="${(0, _indexModuleCssDefault.default).main}">
+		<form>
 			<div class="${(0, _indexModuleCssDefault.default).topSection}">
 				{{{avatar}}}
 				<h2>{{name}}</h2>
@@ -12230,16 +12233,17 @@ const templ = `
 					</div>
 				{{/ each}}
 			</div>
+		</form>
 		</div>
-	</div>
+	</main>
 `;
 
 },{"./index.module.css":"ehbvu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ehbvu":[function(require,module,exports) {
-module.exports["root"] = `rdZihG_root`;
-module.exports["mainSection"] = `rdZihG_mainSection`;
+module.exports["main"] = `rdZihG_main`;
 module.exports["bottomSection"] = `rdZihG_bottomSection`;
 module.exports["topSection"] = `rdZihG_topSection`;
-module.exports["main"] = `rdZihG_main`;
+module.exports["root"] = `rdZihG_root`;
+module.exports["mainSection"] = `rdZihG_mainSection`;
 
 },{}],"fZlFh":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -12254,20 +12258,23 @@ const ChangePassword = ()=>{
             {
                 title: "Старый пароль",
                 value: "********",
-                disabled: "disabled"
+                disabled: "disabled",
+                name: "password"
             },
             {
                 title: "Новый пароль",
-                value: "**********"
+                value: "**********",
+                name: "password"
             },
             {
                 title: "Повторите новый пароль",
-                value: "**********"
+                value: "**********",
+                name: "password"
             }
         ],
         pathData: [
             {
-                type: "<button>Сохранить</button>"
+                type: '<button type="submit">Сохранить</button>'
             }
         ],
         button: "button",
@@ -12313,32 +12320,38 @@ const ChangeData = ()=>{
         userData: [
             {
                 title: "Почта",
-                value: "pochta@yandex.ru"
+                value: "pochta@yandex.ru",
+                name: "email"
             },
             {
                 title: "Логин",
-                value: "ivanivanov"
+                value: "ivanivanov",
+                name: "login"
             },
             {
                 title: "Имя",
-                value: "Иван"
+                value: "Иван",
+                name: "first_name"
             },
             {
                 title: "Фамилия",
-                value: "Иванов"
+                value: "Иванов",
+                name: "second_name"
             },
             {
                 title: "Имя в чате",
-                value: "Иван"
+                value: "Иван",
+                name: "display_name"
             },
             {
                 title: "Телефон",
-                value: "+7 (909) 967 30 30"
+                value: "+7 (909) 967 30 30",
+                name: "phone"
             }
         ],
         pathData: [
             {
-                type: "<button>Сохранить</button>"
+                type: '<button type="submit">Сохранить</button>'
             }
         ],
         button: "button",
@@ -12366,16 +12379,16 @@ var _indexModuleCss = require("./index.module.css");
 var _indexModuleCssDefault = parcelHelpers.interopDefault(_indexModuleCss);
 const templ = `
 	{{> NavBar}}
-	<div class="${(0, _indexModuleCssDefault.default).root}">
+	<main class="${(0, _indexModuleCssDefault.default).root}">
 		<div class="${(0, _indexModuleCssDefault.default).main}">
 			Мы работаем над этим!
 		</div>
-	</div>
+	</main>
 `;
 
 },{"./index.module.css":"iLmCN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iLmCN":[function(require,module,exports) {
-module.exports["main"] = `tldEUq_main`;
 module.exports["root"] = `tldEUq_root`;
+module.exports["main"] = `tldEUq_main`;
 
 },{}],"aukF9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -12400,11 +12413,11 @@ var _indexModuleCssDefault = parcelHelpers.interopDefault(_indexModuleCss);
 const templ = `
 	{{> NavBar}}
 	{{> BackButton}}
-	<div class="${(0, _indexModuleCssDefault.default).root}">
+	<main class="${(0, _indexModuleCssDefault.default).root}">
 		<div class="${(0, _indexModuleCssDefault.default).main}">
 			{{error}}
 		</div>
-	</div>
+	</main>
 `;
 
 },{"./index.module.css":"JT1kb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"JT1kb":[function(require,module,exports) {

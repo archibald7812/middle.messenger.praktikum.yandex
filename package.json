@@ -7,6 +7,16 @@
 		"node": "18.11.0",
 		"npm": "9.2.0"
 	},
+	"browserModern": "dist/index.html",
+	"targets": {
+		"browserModern": {
+			"engines": {
+				"browsers": [
+					"last 1 Chrome version"
+				]
+			}
+		}
+	},
 	"scripts": {
 		"dev": "parcel ./static/index.html",
 		"build": "parcel build ./static/index.html",

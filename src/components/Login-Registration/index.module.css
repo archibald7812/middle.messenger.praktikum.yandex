@@ -26,12 +26,14 @@
 			justify-content: center;
 			form {
 				display: flex;
+				align-items: center;
 				flex-direction: column;
 				width: 280px;
 				div {
 					display: flex;
 					flex-direction: column;
 					margin-bottom: 20px;
+					width: 100%;
 					label {
 						font-size: 10px;
 					}
@@ -44,6 +46,17 @@
 						}
 					}
 				}
+				button {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 220px;
+					height: 30px;
+					background-color: $standartGreen;
+					border-radius: 5px;
+					color: white;
+					margin-bottom: 20px;
+				}
 			}
 		}
 		.bottomSection {
@@ -53,17 +66,6 @@
 			a {
 				text-decoration: none;
 				color: black;
-				margin-bottom: 20px;
-			}
-			button {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: 220px;
-				height: 30px;
-				background-color: $standartGreen;
-				border-radius: 5px;
-				color: white;
 				margin-bottom: 20px;
 			}
 		}
