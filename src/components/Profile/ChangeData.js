@@ -42,7 +42,7 @@ export const ChangeData = () => {
 			},
 		],
 		button: "button",
-		avatar: '<input type="file"/>',
+		avatar: '<input type="file" name="avatar"/>',
 	}
 
 	return Handlebars.compile(templ)(parameters)
