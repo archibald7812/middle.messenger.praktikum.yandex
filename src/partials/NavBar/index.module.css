@@ -1,0 +1,21 @@
+@import "../../styles/constants.css";
+
+.root {
+	height: 50px;
+	box-shadow: 0px 0px 6px $standartGreen;
+	color: $standartGreen;
+	display: flex;
+	align-items: center;
+	nav {
+		width: 40%;
+		ul {
+			width: 100%;
+			display: flex;
+			justify-content: space-around;
+			a {
+				color: $standartGreen;
+				font-weight: bold;
+			}
+		}
+	}
+}
