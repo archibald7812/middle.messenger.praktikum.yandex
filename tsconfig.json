@@ -1,0 +1,42 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"baseUrl": ".",
+		"esModuleInterop": true,
+		"exactOptionalPropertyTypes": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": false,
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"noEmit": true,
+		"noEmitOnError": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"removeComments": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"suppressExcessPropertyErrors": false,
+		"target": "es6"
+	},
+	"exclude": [
+		"node_modules",
+		"dist",
+		".parcel-cache"
+	],
+	"include": [
+		"./**/*.ts",
+		"./src/*.ts",
+		".eslintrc.js"
+	]
+}

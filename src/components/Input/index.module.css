@@ -1,0 +1,26 @@
+@import "../../styles/constants.css";
+
+.root {
+	.input {
+		border: none;
+		border-bottom: 1px solid $standartGreen;
+		&:active,
+		&:focus {
+			outline: none;
+		}
+	}
+	span {
+		font-size: 8px;
+		color: $standartRed;
+		display: none;
+	}
+	&.invalid {
+		.input {
+			border-bottom: 1px solid $standartRed !important;
+			color: $standartRed;
+		}
+		span {
+			display: block;
+		}
+	}
+}
