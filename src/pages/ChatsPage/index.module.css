@@ -1,0 +1,131 @@
+@import "../../styles/constants.css";
+
+.root {
+	display: flex;
+	flex-direction: column;
+	max-height: 100vh;
+	.body {
+		padding-top: 20px;
+		max-height: 90vh;
+		width: 100%;
+		display: flex;
+		.sideBar {
+			padding: 0 5px;
+			width: 20%;
+			display: flex;
+			flex-direction: column;
+			.searchSection {
+				height: 70px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-around;
+				.profile {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
+					a {
+						color: $standartGrey;
+						font-size: 12px;
+						margin-bottom: 0;
+					}
+				}
+				.search {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 100%;
+					input {
+						text-align: center;
+						width: 100%;
+						background-color: $ligthGrey;
+						font-size: 15px;
+						border-radius: 5px;
+						height: 30px;
+					}
+				}
+			}
+			.chatsSection {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				overflow-y: scroll;
+			}
+		}
+		.chat {
+			width: 80%;
+			display: flex;
+			flex-direction: column;
+			.topSection {
+				width: 100%;
+				height: 50px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 5px 10px;
+				.avatar {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					height: 100%;
+					width: 100px;
+					div {
+						height: 40px;
+						width: 40px;
+						background-size: contain;
+					}
+				}
+				.settings {
+					cursor: pointer;
+					background: url("../../styles/images/tripleDotSettings.svg") no-repeat center center;
+					width: 50px;
+					height: 100%;
+				}
+			}
+			.messagesSection {
+				flex: 1;
+				overflow-y: scroll;
+			}
+			.newMessageSection {
+				border-top: 2px solid $ligthGrey;
+				height: 54px;
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				padding: 0 5px;
+				img {
+					width: 32px;
+					height: 32px;
+				}
+				form {
+					flex: 1;
+					display: flex;
+					div {
+						flex: 1;
+						display: flex;
+						input {
+							margin: 0 10px;
+							flex: 1;
+							background-color: $ligthGrey;
+							border-radius: 15px;
+							padding: 5px 10px;
+							height: 32px;
+							border: none;
+						}
+					}
+				}
+
+				.send {
+					height: 28px;
+					width: 28px;
+					background-image: url("../../styles/images/SendMessage.svg");
+					background-color: $standartGreen;
+					border-radius: 50%;
+					background-repeat: no-repeat;
+					background-position: center center;
+				}
+			}
+		}
+	}
+}

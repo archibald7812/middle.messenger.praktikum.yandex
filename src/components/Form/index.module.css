@@ -1,0 +1,10 @@
+@import "../../styles/constants.css";
+
+.root {
+	border: none;
+	border-bottom: 1px solid $standartGreen;
+	&:active,
+	&:focus {
+		outline: none;
+	}
+}

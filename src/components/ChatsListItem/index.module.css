@@ -1,0 +1,54 @@
+@import "../../styles/constants.css";
+
+.root {
+	display: flex;
+	height: 70px;
+	width: 100%;
+	padding: 10px 5px;
+	&:hover {
+		background-color: $standartGreenOpacity;
+	}
+	.profile {
+		width: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.avatar {
+			width: 47px;
+			height: 47px;
+			border-radius: 50%;
+			background-color: $ligthGrey;
+		}
+	}
+	.main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 10px 5px 0 5px;
+		h3 {
+			font-size: 13px;
+		}
+		p {
+			color: $standartGrey;
+			height: 60%;
+			font-size: 12px;
+		}
+	}
+	.info {
+		width: 25px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		p {
+			color: $standartGrey;
+			font-size: 9px;
+		}
+		div {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+		}
+	}
+}
