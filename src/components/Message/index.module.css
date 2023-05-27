@@ -1,0 +1,33 @@
+@import "../../styles/constants.css";
+
+.root {
+	max-height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	margin-bottom: 25px;
+	.body {
+		min-width: 10%;
+		max-width: 45%;
+		font-size: 12px;
+		padding: 10px;
+		background-color: $ligthGrey;
+		border-radius: 10px 10px 10px 0;
+		.time {
+			margin-top: 5px;
+			display: flex;
+			justify-content: flex-end;
+			color: $standartGrey;
+		}
+		img {
+			max-height: 150px;
+		}
+	}
+	&.isMessageByProfile {
+		justify-content: flex-end;
+		.body {
+			background-color: $standartGreenOpacity;
+			border-radius: 10px 10px 0;
+		}
+	}
+}

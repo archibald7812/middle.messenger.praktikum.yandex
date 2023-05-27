@@ -1,6 +1,7 @@
 {
 	"plugins": {
 		"precss": {},
-		"postcss-nested": {}
+		"postcss-nested": {},
+		"postcss-simple-vars":{}
 	}
 }

@@ -1,0 +1,17 @@
+@import "../../styles/constants.css";
+
+.root {
+	display: flex;
+	flex-direction: column;
+	padding: 0 10px;
+	.day {
+		text-align: center;
+		color: $standartGrey;
+		margin-bottom: 10px;
+	}
+	.main {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+}

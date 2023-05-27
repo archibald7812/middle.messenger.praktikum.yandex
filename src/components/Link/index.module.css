@@ -1,0 +1,7 @@
+@import "../../styles/constants.css";
+
+.root {
+	text-decoration: none;
+	color: black;
+	margin-bottom: 20px;
+}

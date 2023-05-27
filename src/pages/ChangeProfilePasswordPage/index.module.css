@@ -1,0 +1,29 @@
+@import "../../styles/constants.css";
+
+.root {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	.body {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.main {
+			width: 500px;
+			display: flex;
+			justify-content: center;
+			form {
+				display: flex;
+				flex-direction: column;
+				font-size: 13px;
+				input {
+					margin-bottom: 20px;
+				}
+			}
+		}
+	}
+}
