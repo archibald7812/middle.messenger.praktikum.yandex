@@ -95,6 +95,14 @@ export default class Block<P extends Record<string, any> = any> {
 		this.componentDidMount();
 	}
 
+	show() {
+		this.getContent().style.display = 'block';
+	}
+
+	hide() {
+		this.getContent().style.display = 'none';
+	}
+
 	componentDidMount() {
 	}
 

@@ -1,4 +1,4 @@
-enum Methods {
+export enum Methods {
 	GET = 'GET',
 	POST = 'POST',
 	PUT = 'PUT',
@@ -6,7 +6,7 @@ enum Methods {
 }
 
 interface requestParams {
-	body?: Record<string, unknown>
+	payload?: Record<string, unknown>
 	method: Methods
 	query?: Record<string, unknown>
 	timeout?: number
@@ -14,12 +14,14 @@ interface requestParams {
 }
 
 export const request = ({
-	body,
+	payload,
 	method,
 	query,
 	timeout,
 	url,
 }: requestParams): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
+	const requestUrl = new URL(`/api/v2${url}`, 'https://ya-praktikum.tech');
+
 	const xhr = new XMLHttpRequest();
 
 	xhr.onload = () => {
@@ -30,6 +32,7 @@ export const request = ({
 	xhr.onerror = reject;
 	xhr.ontimeout = reject;
 	xhr.timeout = timeout ?? 5000;
+	xhr.withCredentials = true;
 
 	switch (method) {
 		case Methods.GET: {
@@ -40,14 +43,15 @@ export const request = ({
 					.map(([key, value]) => `${key}=${value}`)
 					.join('&')}`;
 			}
-
-			xhr.open(method, url + queryString);
+			xhr.open(method, requestUrl + queryString);
+			xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.send();
 			break;
 		}
 		case Methods.POST || Methods.PUT || Methods.DELETE: {
-			xhr.open(method, url);
-			xhr.send(JSON.stringify(body ?? {}));
+			xhr.open(method, requestUrl);
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.send(JSON.stringify(payload ?? {}));
 			break;
 		}
 		default: {

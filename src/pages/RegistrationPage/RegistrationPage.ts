@@ -1,3 +1,5 @@
+import { router } from '../../utils/Router/Router';
+import { getUserData, signIn, signUp } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
 import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
@@ -71,8 +73,16 @@ export class RegistrationPage extends Block {
 			title: 'Регистрация',
 			type: 'submit',
 			events: {
-				click: (e) => {
-					(this.children.button as Button).getFormData(e);
+				click: async (e) => {
+					const payload = (this.children.button as Button).getFormData(e);
+					if (!payload) return;
+					const response = await signUp({ payload });
+					if (response.status === 200) {
+						const loginData = { login: payload?.login, password: payload?.password };
+						await signIn({ payload: loginData });
+						const userData = await getUserData();
+						router.go({ pathname: '/chats' });
+					}
 				},
 			},
 		});

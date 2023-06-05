@@ -1,45 +1,52 @@
+import Store from '../../utils/Store/store';
+import { signOut } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
 import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
-import { Button } from '../../components/Button/Button';
 import { Link } from '../../components/Link/Link';
 import { Avatar } from '../../components/Avatar/Avatar';
+
+const store = new Store();
+
+const state = store.getState();
+
+const userData = state.authorizedUserData;
 
 const inputs = [
 	{
 		title: 'Почта',
-		value: 'pochta@yandex.ru',
+		value: userData?.email,
 		disabled: 'disabled',
 		name: 'email',
 	},
 	{
 		title: 'Логин',
-		value: 'ivanivanov',
+		value: userData?.login,
 		disabled: 'disabled',
 		name: 'login',
 	},
 	{
 		title: 'Имя',
-		value: 'Иван',
+		value: userData?.first_name,
 		disabled: 'disabled',
 		name: 'first_name',
 	},
 	{
 		title: 'Фамилия',
-		value: 'Иванов',
+		value: userData?.second_name,
 		disabled: 'disabled',
 		name: 'second_name',
 	},
 	{
 		title: 'Имя в чате',
-		value: 'Иван',
+		value: userData?.display_name ?? 'Нет',
 		disabled: 'disabled',
 		name: 'display_name',
 	},
 	{
 		title: 'Телефон',
-		value: '+7 (909) 967 30 30',
+		value: userData?.phone,
 		disabled: 'disabled',
 		name: 'phone',
 	},
@@ -82,6 +89,11 @@ export class ProfilePage extends Block {
 		this.children.exit = new Link({
 			title: 'Выход',
 			to: '/log-in',
+			events: {
+				click: () => {
+					signOut();
+				},
+			},
 		});
 	}
 

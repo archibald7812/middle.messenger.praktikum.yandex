@@ -30,7 +30,6 @@ export class Input extends Block {
 
 	public isValid() {
 		const elem = this.element as HTMLDivElement;
-		console.log(validationFunc(elem));
 	}
 
 	render() {
