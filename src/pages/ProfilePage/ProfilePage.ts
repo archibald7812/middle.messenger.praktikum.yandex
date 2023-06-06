@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import Store from '../../utils/Store/store';
 import { signOut } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
@@ -57,15 +58,44 @@ export class ProfilePage extends Block {
 		super({});
 	}
 
+	setProps(newProps: any) {
+		super.setProps(newProps);
+		this.dispatchComponentDidMount();
+	}
+	/* setProps = (newProps: any) => {
+		super.setProps(newProps);
+		console.log('newProps', newProps);
+		for (const key in newProps) {
+			if (key === 'avatar') {
+				this.children[key] = new Avatar({
+					tag: '',
+					name: newProps.login,
+				});
+			} else {
+				this.children[key] = new Input({
+					name: key,
+					label: key,
+					disabled: 'disabled',
+					placeholder: newProps[key],
+					events: {
+					},
+				});
+			}
+		}
+		console.log(5, super.setProps);
+
+		this.componentDidMount();
+	}; */
+
 	init() {
 		this.children.navigation = new NavBar();
 
-		this.children.avatar = new Avatar({
+		/* this.children.avatar = new Avatar({
 			tag: '',
 			name: 'Иван',
-		});
+		}); */
 
-		inputs.forEach((input) => {
+		/* inputs.forEach((input) => {
 			this.children[input.name] = new Input({
 				name: input.name,
 				label: input.title,
@@ -74,7 +104,7 @@ export class ProfilePage extends Block {
 				events: {
 				},
 			});
-		});
+		}); */
 
 		this.children.changeData = new Link({
 			title: 'Изменить данные',

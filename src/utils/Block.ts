@@ -1,6 +1,7 @@
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 import { EventBus } from './EventBus';
+import { isEqual } from './isEqual';
 
 export default class Block<P extends Record<string, any> = any> {
 	static EVENTS = {
@@ -14,7 +15,7 @@ export default class Block<P extends Record<string, any> = any> {
 
 	protected props: P;
 
-	public children: Record<string, Block | Block[]>;
+	public children: P/* Record<string, Block | Block[]> */;
 
 	private eventBus: () => EventBus;
 
@@ -31,9 +32,10 @@ export default class Block<P extends Record<string, any> = any> {
 
 		const { props, children } = this._getChildrenAndProps(propsWithChildren);
 
-		this.children = children;
-
+		this.children = this._makePropsProxy(children);
 		this.props = this._makePropsProxy(props);
+
+		// this.props = this._makePropsProxy(props);
 
 		this.eventBus = () => eventBus;
 
@@ -42,9 +44,9 @@ export default class Block<P extends Record<string, any> = any> {
 		eventBus.emit(Block.EVENTS.INIT);
 	}
 
-	_getChildrenAndProps(childrenAndProps: P): { props: P, children: Record<string, Block | Block[]> } {
+	_getChildrenAndProps(childrenAndProps: P): { props: P, children: P/* Record<string, Block | Block[]> */ } {
 		const props: Record<string, unknown> = {};
-		const children: Record<string, Block | Block[]> = {};
+		const children: Record<string, unknown>/* Record<string, Block | Block[]> */ = {};
 
 		Object.entries(childrenAndProps).forEach(([key, value]) => {
 			if (Array.isArray(value) && value.length > 0 && value.every((v) => v instanceof Block)) {
@@ -56,7 +58,7 @@ export default class Block<P extends Record<string, any> = any> {
 			}
 		});
 
-		return { props: props as P, children };
+		return { props: props as P, children: children as P };
 	}
 
 	_addEvents() {
@@ -93,6 +95,7 @@ export default class Block<P extends Record<string, any> = any> {
 
 	_componentDidMount() {
 		this.componentDidMount();
+		Object.values(this.children).forEach((child) => { child.dispatchComponentDidMount(); });
 	}
 
 	show() {
@@ -107,15 +110,17 @@ export default class Block<P extends Record<string, any> = any> {
 	}
 
 	public dispatchComponentDidMount() {
-		this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-
+		/* this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+		console.log(6);
 		Object.values(this.children).forEach((child) => {
 			if (Array.isArray(child)) {
 				child.forEach((ch) => ch.dispatchComponentDidMount());
 			} else {
 				child.dispatchComponentDidMount();
 			}
-		});
+		}); */
+		this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+		if (Object.keys(this.children).length) { this.eventBus().emit(Block.EVENTS.FLOW_RENDER); }
 	}
 
 	private _componentDidUpdate(oldProps: P, newProps: P) {
@@ -128,13 +133,21 @@ export default class Block<P extends Record<string, any> = any> {
 		return true;
 	}
 
-	setProps = (nextProps: Partial<P>) => {
+	setProps(nextProps: P) {
+		console.log('nextProps', nextProps);
+
 		if (!nextProps) {
 			return;
 		}
 
-		Object.assign(this.props, nextProps);
-	};
+		const { children, props } = this._getChildrenAndProps(nextProps);
+
+		if (Object.values(children).length) { Object.assign(this.children, children); }
+
+		if (Object.values(props).length) { Object.assign(this.props, props); }
+
+		console.log('1', this.children);
+	}
 
 	get element() {
 		return this._element as HTMLElement;

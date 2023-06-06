@@ -1,3 +1,4 @@
+import Store from '../utils/Store/store';
 import { Methods, request } from '../utils/request';
 
 export type ISignUpPayload = {
@@ -29,6 +30,10 @@ export const signUp = ({ payload }: { payload: any }) => request({ method: Metho
 
 export const signIn = ({ payload }: { payload: any }) => request({ method: Methods.POST, url: '/auth/signin', payload });
 
-export const signOut = () => request({ method: Methods.POST, url: '/auth/logout' });
+export const signOut = () => {
+	const store = new Store();
+	store.removeState();
+	request({ method: Methods.POST, url: '/auth/logout' });
+};
 
 export const getUserData = () => request({ method: Methods.GET, url: '/auth/user' });

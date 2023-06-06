@@ -79,7 +79,9 @@ export default class Store extends EventBus {
 
 		this.on(
 			Store.EVENT_UPDATE,
-			() => { localStorage.setItem(Store.STORE_NAME, JSON.stringify(this.state)); },
+			() => {
+				localStorage.setItem(Store.STORE_NAME, JSON.stringify(this.state));
+			},
 		);
 	}
 
@@ -90,11 +92,13 @@ export default class Store extends EventBus {
 	removeState() {
 		this.state = {};
 		this.emit(Store.EVENT_UPDATE);
+		console.log('removeState', this.state);
 	}
 
 	set<TKey extends keyof IStoreState>(id: TKey, value: IStoreState[TKey]) {
 		this.state[id] = value;
 		this.emit(Store.EVENT_UPDATE);
+		console.log('setState', this.state);
 		return this;
 	}
 }

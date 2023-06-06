@@ -9,6 +9,15 @@ import { ChangeProfileDataPage } from './pages/ChangeProfileDataPage/ChangeProfi
 import { ChangeProfilePasswordPage } from './pages/ChangeProfilePasswordPage/ChangeProfilePasswordPage';
 import { ChatsPage } from './pages/ChatsPage/ChatsPage';
 import { router } from './utils/Router/Router';
+import Store from './utils/Store/store';
+import { ProfilePageStored } from './pages/ProfilePage';
+
+interface CustomWindow extends Window {
+	AppStore?: Store;
+}
+declare let window: CustomWindow;
+
+window.AppStore = new Store();
 
 window.addEventListener('DOMContentLoaded', () => {
 	router
@@ -20,6 +29,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		.use({ pathname: '/new-password', RouteBlock: ChangeProfilePasswordPage })
 		.use({ pathname: '/new-data', RouteBlock: ChangeProfileDataPage })
 		.use({ pathname: '/chats', RouteBlock: ChatsPage })
-		.use({ pathname: '/profile', RouteBlock: ProfilePage })
+		.use({ pathname: '/profile', RouteBlock: ProfilePageStored })
 		.start();
 });
