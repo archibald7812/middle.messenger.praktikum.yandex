@@ -4,6 +4,7 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { Avatar } from '../../components/Avatar/Avatar';
+import { IStoreState, withStore } from 'src/utils/Store/store';
 
 const inputs = [
 	{
@@ -43,19 +44,10 @@ const inputs = [
 		type: 'tel',
 	},
 ];
-
-export class ChangeProfileDataPage extends Block {
-	constructor() {
-		super({});
-	}
+export class BaseChangeProfileDataPage extends Block {
 
 	init() {
 		this.children.navigation = new NavBar();
-
-		this.children.avatar = new Avatar({
-			tag: '',
-			name: 'Иван',
-		});
 
 		inputs.forEach((input) => {
 			this.children[input.name] = new Input({
@@ -88,3 +80,10 @@ export class ChangeProfileDataPage extends Block {
 		return this.compile(tmpl, this.props);
 	}
 }
+
+function mapStateToProps(state: IStoreState) {
+	return { ...state.authorizedUserData };
+}
+
+export const ChangeProfileDataPage = withStore(mapStateToProps)(BaseChangeProfileDataPage);
+

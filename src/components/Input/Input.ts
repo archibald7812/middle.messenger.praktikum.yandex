@@ -12,9 +12,9 @@ interface IInput {
 }
 
 export class Input extends Block {
-	constructor(props: IInput) {
-		super(props);
-	}
+	/* 	constructor(props: IInput) {
+			super(props);
+		} */
 
 	public setValue(value: string) {
 		return (this.element.children[1] as HTMLInputElement).value = value;

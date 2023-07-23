@@ -6,20 +6,14 @@ export const tmpl = `
 		<main class="${styles.body}">
 			<div class="${styles.main}">
 				<form>
-
 						<input type="file"/>
-
-
 						{{{email}}}
 						{{{login}}}
 						{{{first_name}}}
 						{{{second_name}}}
 						{{{display_name}}}
 						{{{phone}}}
-
-
-							{{{button}}}
-
+						{{{button}}}
 				</form>
 			</div>
 	</main>

@@ -15,7 +15,7 @@ export default class Block<P extends Record<string, any> = any> {
 
 	protected props: P;
 
-	public children: P/* Record<string, Block | Block[]> */;
+	public children: P;
 
 	protected eventBus: () => EventBus;
 
@@ -129,18 +129,18 @@ export default class Block<P extends Record<string, any> = any> {
 
 		const { children, props } = this._getChildrenAndProps(nextProps)
 
-		this.children = children//merge(this.children, children)
-		this.props = props//merge(this.props, props)
+		merge(this.children, children)
+		merge(this.props, props)
 
-		if (Object.values(children).length) {
+		/* if (Object.values(children).length) {
 			merge(this.children, children)
 			//Object.assign(this.children, children);
-		}
+		} */
 
-		if (Object.values(props).length) {
+		/* if (Object.values(props).length) {
 			merge(this.props, props)
 			//Object.assign(this.props, props); 
-		}
+		} */
 	}
 
 	get element() {

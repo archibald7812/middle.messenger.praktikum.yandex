@@ -26,42 +26,14 @@ const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 
 export class BaseProfilePage extends Block {
 
 	setProps(nextProps: any): void {
-		console.log('setProps', nextProps)
 		super.setProps(nextProps)
 
-		this.updateChildren()
-	}
+		const props = { ...this.props }
 
-	updateChildren() {
-
-		const data: Record<string, any> = {}
-		const props: any = {}
-
-		Object.entries(this.props).forEach((item) => {
-			data[item[0]] = item[1]
-		})
-
-		console.log(1, this.props)
-		console.log(2, data)
-
-		for (const key of profile) {
-			if (key === 'avatar') {
-				props.avatar = new Avatar({
-					tag: '',
-					name: data[key],
-				});
-			} else {
-				props[key] = new Input({
-					name: key,
-					label: getLabel(key),
-					disabled: 'disabled',
-					placeholder: data[key],
-					events: {
-					},
-				});
-			}
+		for (const key in props) {
+			this.children[key].setProps({ placeholder: props[key] })
 		}
-		this.children = merge(this.children, props)
+
 	}
 
 	init() {
@@ -83,11 +55,31 @@ export class BaseProfilePage extends Block {
 			events: {
 				click: () => {
 					signOut();
+					const propsKeys: any = {}
+					profile.forEach(name => {
+						propsKeys[name] = null
+					})
+					this.setProps(propsKeys)
 				},
 			},
 		});
 
-		this.updateChildren()
+		for (const key of profile) {
+			if (key === 'avatar') {
+				this.children.avatar = new Avatar({
+					tag: '',
+				})
+			} else {
+				this.children[key] = new Input({
+					name: key,
+					label: getLabel(key),
+					disabled: 'disabled',
+					placeholder: this.props[key],
+					events: {
+					},
+				});
+			}
+		}
 	}
 
 	render() {
