@@ -11,10 +11,13 @@ class Router {
 
 	private error404: Route;
 
+	private currentRoute: Route | null;
+
 	constructor() {
 		this.history = window.history;
 		this.routes = [];
 		this.error404 = new Route({ pathname: 'any', RouteBlock: Error404 });
+		this.currentRoute = null
 		if (Router.instance) {
 			return Router.instance;
 		}
@@ -32,6 +35,10 @@ class Router {
 			this.error404.render();
 			return;
 		}
+
+		if (this.currentRoute) this.currentRoute.leave()
+
+		this.currentRoute = route
 
 		/* if (isCurrentPathnameProtected() && store.getState().authorizedUserData === null) {
 			this.go({ pathname: '/' });

@@ -6,6 +6,7 @@ import { ChangeProfilePasswordPage } from '../../pages/ChangeProfilePasswordPage
 import { ChatsPage } from '../../pages/ChatsPage/ChatsPage';
 import { LoginPage } from '../../pages/LoginPage/LoginPage';
 import { RegistrationPage } from '../../pages/RegistrationPage/RegistrationPage';
+import Block from '../Block';
 
 export type IRouteBlock =
 	| typeof RegistrationPage
@@ -18,7 +19,7 @@ export type IRouteBlock =
 	| typeof Error500
 
 interface CustomWindow extends Window {
-	profile: ProfilePageStored;
+	profile: typeof ProfilePageStored;
 }
 declare let window: CustomWindow;
 
@@ -27,9 +28,18 @@ export class Route {
 
 	private RouteBlock: IRouteBlock;
 
+	public block: Block
+
 	constructor({ pathname, RouteBlock }: { pathname: string; RouteBlock: IRouteBlock }) {
 		this.pathname = pathname;
 		this.RouteBlock = RouteBlock;
+		this.block = new this.RouteBlock()
+	}
+
+	public leave() {
+		if (this.block) {
+			this.block.hide();
+		}
 	}
 
 	public match({ pathname }: { pathname: string }) {
@@ -45,14 +55,20 @@ export class Route {
 
 	public render() {
 		const root = document.querySelector('#root');
+
 		if (root === null) {
 			throw new Error('#root is not found.');
 		}
-		root.innerHTML = '';
-		root.append(new this.RouteBlock().element);
 
-		window.profile = new this.RouteBlock();
-		console.log('children', window.profile.children);
-		console.log('props', window.profile.props);
+		if (!this.block) {
+			this.block = new this.RouteBlock();
+		} else {
+			this.block.show()
+		}
+
+		root.append(this.block.element);
+
+
+
 	}
 }

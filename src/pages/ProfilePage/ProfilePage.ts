@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import Store from '../../utils/Store/store';
+import { IStoreState, withStore } from '../../utils/Store/store';
 import { signOut } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
 import { tmpl } from './tmpl';
@@ -7,108 +7,69 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Link } from '../../components/Link/Link';
 import { Avatar } from '../../components/Avatar/Avatar';
+import { merge } from 'src/utils/helpers/merge';
 
-const store = new Store();
+const getLabel = (key: any): string => {
+	switch (key) {
+		case 'email': return 'Почта'
+		case 'login': return 'Логин'
+		case 'first_name': return 'Имя'
+		case 'second_name': return 'Фамилия'
+		case 'display_name': return 'Имя в чате'
+		case 'phone': return 'Телефон'
+		default: return ''
+	}
+}
 
-const state = store.getState();
+const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'avatar', 'id']
 
-const userData = state.authorizedUserData;
+export class BaseProfilePage extends Block {
 
-const inputs = [
-	{
-		title: 'Почта',
-		value: userData?.email,
-		disabled: 'disabled',
-		name: 'email',
-	},
-	{
-		title: 'Логин',
-		value: userData?.login,
-		disabled: 'disabled',
-		name: 'login',
-	},
-	{
-		title: 'Имя',
-		value: userData?.first_name,
-		disabled: 'disabled',
-		name: 'first_name',
-	},
-	{
-		title: 'Фамилия',
-		value: userData?.second_name,
-		disabled: 'disabled',
-		name: 'second_name',
-	},
-	{
-		title: 'Имя в чате',
-		value: userData?.display_name ?? 'Нет',
-		disabled: 'disabled',
-		name: 'display_name',
-	},
-	{
-		title: 'Телефон',
-		value: userData?.phone,
-		disabled: 'disabled',
-		name: 'phone',
-	},
-];
+	setProps(nextProps: any): void {
+		console.log('setProps', nextProps)
+		super.setProps(nextProps)
 
-export class ProfilePage extends Block {
-	constructor() {
-		super({});
+		this.updateChildren()
 	}
 
-	setProps(newProps: any) {
-		super.setProps(newProps);
-		this.dispatchComponentDidMount();
-	}
-	/* setProps = (newProps: any) => {
-		super.setProps(newProps);
-		console.log('newProps', newProps);
-		for (const key in newProps) {
+	updateChildren() {
+
+		const data: Record<string, any> = {}
+		const props: any = {}
+
+		Object.entries(this.props).forEach((item) => {
+			data[item[0]] = item[1]
+		})
+
+		console.log(1, this.props)
+		console.log(2, data)
+
+		for (const key of profile) {
 			if (key === 'avatar') {
-				this.children[key] = new Avatar({
+				props.avatar = new Avatar({
 					tag: '',
-					name: newProps.login,
+					name: data[key],
 				});
 			} else {
-				this.children[key] = new Input({
+				props[key] = new Input({
 					name: key,
-					label: key,
+					label: getLabel(key),
 					disabled: 'disabled',
-					placeholder: newProps[key],
+					placeholder: data[key],
 					events: {
 					},
 				});
 			}
 		}
-		console.log(5, super.setProps);
-
-		this.componentDidMount();
-	}; */
+		this.children = merge(this.children, props)
+	}
 
 	init() {
 		this.children.navigation = new NavBar();
 
-		/* this.children.avatar = new Avatar({
-			tag: '',
-			name: 'Иван',
-		}); */
-
-		/* inputs.forEach((input) => {
-			this.children[input.name] = new Input({
-				name: input.name,
-				label: input.title,
-				disabled: input.disabled,
-				placeholder: input.value,
-				events: {
-				},
-			});
-		}); */
-
 		this.children.changeData = new Link({
 			title: 'Изменить данные',
-			to: '/new-data',
+			to: '/settings',
 		});
 
 		this.children.changePassword = new Link({
@@ -125,9 +86,17 @@ export class ProfilePage extends Block {
 				},
 			},
 		});
+
+		this.updateChildren()
 	}
 
 	render() {
 		return this.compile(tmpl, this.props);
 	}
 }
+
+function mapStateToProps(state: IStoreState) {
+	return { ...state.authorizedUserData };
+}
+
+export const ProfilePage = withStore(mapStateToProps)(BaseProfilePage);

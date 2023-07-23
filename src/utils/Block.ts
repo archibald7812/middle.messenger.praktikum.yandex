@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars';
 import { nanoid } from 'nanoid';
 import { EventBus } from './EventBus';
-import { isEqual } from './isEqual';
+import { merge } from './helpers/merge';
 
 export default class Block<P extends Record<string, any> = any> {
 	static EVENTS = {
@@ -17,7 +17,7 @@ export default class Block<P extends Record<string, any> = any> {
 
 	public children: P/* Record<string, Block | Block[]> */;
 
-	private eventBus: () => EventBus;
+	protected eventBus: () => EventBus;
 
 	private _element: HTMLElement | null = null;
 
@@ -35,8 +35,6 @@ export default class Block<P extends Record<string, any> = any> {
 		this.children = this._makePropsProxy(children);
 		this.props = this._makePropsProxy(props);
 
-		// this.props = this._makePropsProxy(props);
-
 		this.eventBus = () => eventBus;
 
 		this._registerEvents(eventBus);
@@ -44,9 +42,9 @@ export default class Block<P extends Record<string, any> = any> {
 		eventBus.emit(Block.EVENTS.INIT);
 	}
 
-	_getChildrenAndProps(childrenAndProps: P): { props: P, children: P/* Record<string, Block | Block[]> */ } {
+	_getChildrenAndProps(childrenAndProps: P): { props: P, children: P } {
 		const props: Record<string, unknown> = {};
-		const children: Record<string, unknown>/* Record<string, Block | Block[]> */ = {};
+		const children: Record<string, unknown> = {};
 
 		Object.entries(childrenAndProps).forEach(([key, value]) => {
 			if (Array.isArray(value) && value.length > 0 && value.every((v) => v instanceof Block)) {
@@ -93,11 +91,6 @@ export default class Block<P extends Record<string, any> = any> {
 	protected init() {
 	}
 
-	_componentDidMount() {
-		this.componentDidMount();
-		Object.values(this.children).forEach((child) => { child.dispatchComponentDidMount(); });
-	}
-
 	show() {
 		this.getContent().style.display = 'block';
 	}
@@ -106,19 +99,15 @@ export default class Block<P extends Record<string, any> = any> {
 		this.getContent().style.display = 'none';
 	}
 
+	_componentDidMount() {
+		this.componentDidMount();
+		Object.values(this.children).forEach((child) => { child.dispatchComponentDidMount(); });
+	}
+
 	componentDidMount() {
 	}
 
 	public dispatchComponentDidMount() {
-		/* this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-		console.log(6);
-		Object.values(this.children).forEach((child) => {
-			if (Array.isArray(child)) {
-				child.forEach((ch) => ch.dispatchComponentDidMount());
-			} else {
-				child.dispatchComponentDidMount();
-			}
-		}); */
 		this.eventBus().emit(Block.EVENTS.FLOW_CDM);
 		if (Object.keys(this.children).length) { this.eventBus().emit(Block.EVENTS.FLOW_RENDER); }
 	}
@@ -134,19 +123,24 @@ export default class Block<P extends Record<string, any> = any> {
 	}
 
 	setProps(nextProps: P) {
-		console.log('nextProps', nextProps);
-
 		if (!nextProps) {
 			return;
 		}
 
-		const { children, props } = this._getChildrenAndProps(nextProps);
+		const { children, props } = this._getChildrenAndProps(nextProps)
 
-		if (Object.values(children).length) { Object.assign(this.children, children); }
+		this.children = children//merge(this.children, children)
+		this.props = props//merge(this.props, props)
 
-		if (Object.values(props).length) { Object.assign(this.props, props); }
+		if (Object.values(children).length) {
+			merge(this.children, children)
+			//Object.assign(this.children, children);
+		}
 
-		console.log('1', this.children);
+		if (Object.values(props).length) {
+			merge(this.props, props)
+			//Object.assign(this.props, props); 
+		}
 	}
 
 	get element() {
@@ -230,7 +224,6 @@ export default class Block<P extends Record<string, any> = any> {
 				const oldTarget = { ...target };
 
 				target[prop as keyof P] = value;
-
 				// Запускаем обновление компоненты
 				// Плохой cloneDeep, в следующей итерации нужно заставлять добавлять cloneDeep им самим
 				self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);

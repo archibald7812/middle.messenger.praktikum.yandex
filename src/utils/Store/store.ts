@@ -1,5 +1,9 @@
 /* eslint-disable no-constructor-return */
+import Block from '../Block';
 import { EventBus } from '../EventBus';
+import { isEqual } from '../helpers/isEqual';
+import { merge } from '../helpers/merge';
+import { set } from '../helpers/set';
 
 export type IUser = {
 	avatar: string | null
@@ -45,7 +49,7 @@ export type IStoreState = {
 	isChatParticipantsDialogOpen?: boolean
 }
 
-const initialState: IStoreState = {
+export const initialState: IStoreState = {
 	activeChatId: null,
 	activeChaIMessages: [],
 	activeChatParticipants: [],
@@ -91,14 +95,32 @@ export default class Store extends EventBus {
 
 	removeState() {
 		this.state = {};
+
 		this.emit(Store.EVENT_UPDATE);
-		console.log('removeState', this.state);
 	}
 
-	set<TKey extends keyof IStoreState>(id: TKey, value: IStoreState[TKey]) {
-		this.state[id] = value;
+	set<TKey extends keyof IStoreState>(path: string, value: IStoreState[TKey]) {
+
+		set(this.state, path, value);
+
 		this.emit(Store.EVENT_UPDATE);
-		console.log('setState', this.state);
 		return this;
+	}
+}
+
+const store = new Store();
+
+export function withStore(mapStateToProps: (state: IStoreState) => any) {
+	return (Component: typeof Block) => {
+		return class extends Component {
+			constructor(props: any) {
+				super({ ...props, ...mapStateToProps(store.getState()) });
+
+				store.on(Store.EVENT_UPDATE, () => {
+					const propsFromState = mapStateToProps(store.getState());
+					this.setProps(propsFromState);
+				});
+			}
+		}
 	}
 }

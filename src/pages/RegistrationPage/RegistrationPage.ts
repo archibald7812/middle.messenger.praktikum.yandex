@@ -78,10 +78,8 @@ export class RegistrationPage extends Block {
 					if (!payload) return;
 					const response = await signUp({ payload });
 					if (response.status === 200) {
-						const loginData = { login: payload?.login, password: payload?.password };
-						await signIn({ payload: loginData });
-						const userData = await getUserData();
-						router.go({ pathname: '/chats' });
+						await getUserData();
+						router.go({ pathname: '/profile' });
 					}
 				},
 			},

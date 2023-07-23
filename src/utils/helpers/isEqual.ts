@@ -1,13 +1,7 @@
-/* eslint-disable default-param-last */
-/* eslint-disable no-prototype-builtins */
-/* eslint-disable no-restricted-syntax */
-interface MyObject {
-	[key: string]: any;
-}
+export function isEqual(obj1: any, obj2: any): boolean {
 
-export function isEqual(obj1: MyObject = {}, obj2: MyObject = {}): boolean {
 	if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
-		throw new Error('Аргументами должны быть только объекты');
+		return false;
 	}
 
 	const keys1 = Object.keys(obj1);

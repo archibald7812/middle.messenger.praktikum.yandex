@@ -67,7 +67,7 @@ export class LoginPage extends Block {
 						const userDataResponse = await getUserData();
 						const userData = await userDataResponse.response;
 						addUserData(userData);
-						router.go({ pathname: '/chats' });
+						router.go({ pathname: '/profile' });
 					}
 				},
 			},

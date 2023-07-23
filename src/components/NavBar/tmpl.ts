@@ -15,7 +15,7 @@ const tabs = [
 	},
 	{
 		label: 'Чаты',
-		link: 'chats',
+		link: 'messenger',
 	},
 ];
 
