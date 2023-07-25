@@ -8,10 +8,10 @@ export const tmpl = `
 		<main class='${styles.body}'>
 			<div class='${styles.sideBar}'>
 				<div class='${styles.searchSection}'>
-					<div class='${styles.profile}'>{{{profileLink}}}</div>
-					<div class='${styles.search}'>
-						<input type='text' placeholder='Поиск...'/>
-					</div>
+					<form>
+						{{{inputChat}}}
+						<div class='${styles.createChat}'>{{{createChat}}}</div>
+					</form>
 				</div>
 				<div class='${styles.chatsSection}'>
 					${chats.map((chat) => `{{{chatsListItem${chat.id}}}}`).join('')}

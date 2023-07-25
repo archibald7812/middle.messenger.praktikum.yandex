@@ -33,7 +33,8 @@ export class BaseProfilePage extends Block {
 		const props = { ...this.props }
 
 		for (const key in props) {
-			this.children[key].setProps({ placeholder: props[key] })
+			if (key === 'avatar') this.children.avatar.setProps({ src: props[key] })
+			else this.children[key].setProps({ placeholder: props[key] })
 		}
 
 	}

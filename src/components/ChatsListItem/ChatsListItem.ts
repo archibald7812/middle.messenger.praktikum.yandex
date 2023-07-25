@@ -4,10 +4,10 @@ import { UnreadMessages } from '../UnreadMessages/UnreadMessages';
 
 export interface IChatsListItem {
 	id: number
-	avatar: string
+	avatar?: string
 	name: string
-	latsMessageTime: string
-	lastMessagePlaceholder: string
+	latsMessageTime?: string
+	lastMessagePlaceholder: string | null
 	newMessages: number
 	events?: Record<string, (event: MouseEvent) => void>
 }

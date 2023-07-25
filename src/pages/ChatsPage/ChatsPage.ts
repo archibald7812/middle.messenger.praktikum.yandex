@@ -5,33 +5,67 @@ import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { chats, messages } from './data';
-import { Link } from '../../components/Link/Link';
 import { Input } from '../../components/Input/Input';
+import { Button } from 'src/components/Button/Button';
+import { InputText } from 'src/components/InputText/InputText';
+import { createChat, getChats } from '../../api/ChatsApi';
+import { addChats } from 'src/utils/Store/actions';
+import { IStoreState, withStore } from '../../utils/Store/store';
 
-export class ChatsPage extends Block {
-	constructor() {
-		super({});
-	}
+export class BaseChatsPage extends Block {
+	/* 	constructor() {
+			super({});
+		} */
 
 	init() {
 		this.children.navigation = new NavBar();
 
-		chats.forEach((chat) => {
+		console.log(0, this.props)
+
+		const chats = [...{ ...this.props }]
+
+		console.log(1, chats)
+
+		chats.forEach((chat: any) => {
 			this.children[`chatsListItem${chat.id}`] = new ChatsListItem({
-				avatar: chat.avatar,
 				id: chat.id,
-				name: chat.name,
-				latsMessageTime: chat.latsMessageTime,
-				lastMessagePlaceholder: chat.lastMessagePlaceholder,
-				newMessages: chat.newMessages,
+				name: chat.title,
+				lastMessagePlaceholder: chat.last_message,
+				newMessages: chat.unread_count,
 			});
-		});
+		})
 
 		this.children.avatar = new Avatar({});
 
-		this.children.profileLink = new Link({
-			title: 'Профиль',
-			to: '/profile',
+		this.children.createChat = new Button({
+			title: 'Создать чат',
+			type: 'submit',
+			events: {
+				click: async (e) => {
+					e.preventDefault()
+					const data = this.children.inputChat.getValue()
+					const createChatResponse = await createChat(data)
+					if (createChatResponse.status === 200) {
+						const chatsDataResponse = await getChats()
+						const chatsData = await chatsDataResponse.response
+						const chats = JSON.parse(chatsData)
+						if (chats) {
+							addChats(chats)
+						}
+					}
+				},
+			}
+		});
+
+		this.children.inputChat = new InputText({
+			title: 'Создать чат',
+			events: {
+				input: (e: any) => {
+					e.preventDefault()
+					console.log(e.target.value)
+					this.children.inputChat.setValue(e.target.value)
+				},
+			}
 		});
 
 		messages.forEach((item) => {
@@ -61,3 +95,9 @@ export class ChatsPage extends Block {
 		return this.compile(tmpl, this.props);
 	}
 }
+
+function mapStateToProps(state: IStoreState) {
+	return { ...state.chats };
+}
+
+export const ChatsPage = withStore(mapStateToProps)(BaseChatsPage);

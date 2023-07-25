@@ -20,22 +20,19 @@
 				flex-direction: column;
 				align-items: center;
 				justify-content: space-around;
-				.profile {
+				margin-bottom: 20px;
+				.createChat {
 					width: 100%;
 					display: flex;
 					align-items: center;
-					justify-content: flex-end;
-					a {
-						color: $standartGrey;
-						font-size: 12px;
-						margin-bottom: 0;
-					}
+					justify-content: center;
 				}
-				.search {
+				.inputChat {
 					display: flex;
 					justify-content: center;
 					align-items: center;
 					width: 100%;
+					margin-bottom: 10px;
 					input {
 						text-align: center;
 						width: 100%;

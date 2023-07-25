@@ -5,7 +5,7 @@ import Block from '../../utils/Block';
 
 interface IButton {
 	title: string
-	type: string
+	type?: string
 	events?: Record<string, (event: MouseEvent) => void>
 }
 

@@ -8,17 +8,6 @@ import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { Link } from '../../components/Link/Link';
 
-const tabs = [
-	{
-		label: 'Вход',
-		link: 'log-in',
-	},
-	{
-		label: 'Регистрация',
-		link: 'registration',
-	},
-];
-
 export class LoginPage extends Block {
 	constructor() {
 		super({});

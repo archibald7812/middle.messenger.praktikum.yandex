@@ -6,7 +6,7 @@ export enum Methods {
 }
 
 interface requestParams {
-	payload?: Record<string, unknown>
+	payload?: Record<string, unknown> | any
 	method: Methods
 	query?: Record<string, unknown>
 	timeout?: number
