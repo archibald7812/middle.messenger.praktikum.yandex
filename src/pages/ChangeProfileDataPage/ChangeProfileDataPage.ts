@@ -3,8 +3,12 @@ import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
-import { Avatar } from '../../components/Avatar/Avatar';
 import { IStoreState, withStore } from 'src/utils/Store/store';
+import { getLabel } from '../ProfilePage/ProfilePage';
+import { updateUserAvatar, updateUserData } from 'src/api/UserApi';
+import { getUserData } from 'src/api/AuthApi';
+import { addUserData } from 'src/utils/Store/actions';
+import { router } from 'src/utils/Router/Router';
 
 const inputs = [
 	{
@@ -44,33 +48,63 @@ const inputs = [
 		type: 'tel',
 	},
 ];
+
+const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id']
+
 export class BaseChangeProfileDataPage extends Block {
 
 	init() {
 		this.children.navigation = new NavBar();
 
-		inputs.forEach((input) => {
-			this.children[input.name] = new Input({
-				name: input.name,
-				label: input.title,
-				placeholder: input.value,
+		for (const key of profile) {
+			this.children[key] = new Input({
+				name: key,
+				label: getLabel(key),
+				placeholder: this.props[key],
+				value: this.props[key],
 				events: {
-					input: () => {
-						(this.children[input.name] as Input).isValid();
-					},
-					focusout: () => {
-						(this.children[input.name] as Input).isValid();
-					},
 				},
 			});
-		});
+		}
 
 		this.children.button = new Button({
-			title: 'Сохранить',
+			title: 'Сохранить данные',
 			type: 'submit',
 			events: {
-				click: (e) => {
-					(this.children.button as Button).getFormData(e);
+				click: async (e) => {
+					const data = (this.children.button as Button).getFormData(e);
+					const response = await updateUserData({ payload: data })
+					const isOK = response.status;
+					if (isOK === 200) {
+						const userDataResponse = await getUserData();
+						const userData = await userDataResponse.response;
+						addUserData(userData);
+						router.go({ pathname: '/profile' });
+					}
+				},
+			},
+		});
+
+		this.children.avatarButton = new Button({
+			title: 'Сохранить аватар',
+			type: 'submit',
+			events: {
+				click: async (e) => {
+					e.preventDefault()
+					const form = (e.target as HTMLButtonElement).closest('form') as HTMLFormElement;
+					const fileInput = form.elements[0] as HTMLInputElement;
+					if (!fileInput.files) return
+					const avatar = fileInput.files[0]
+					const data = new FormData();
+					data.append("avatar", avatar, avatar.name)
+					const response = await updateUserAvatar({ payload: data })
+					const isOK = response.status;
+					if (isOK === 200) {
+						const userDataResponse = await getUserData();
+						const userData = await userDataResponse.response;
+						addUserData(userData);
+						router.go({ pathname: '/profile' });
+					}
 				},
 			},
 		});

@@ -3,28 +3,14 @@ import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
-import { Avatar } from '../../components/Avatar/Avatar';
+import { getLabel } from '../ProfilePage/ProfilePage';
+import { updateUserPassword } from 'src/api/UserApi';
+import { getUserData } from 'src/api/AuthApi';
+import { addUserData } from 'src/utils/Store/actions';
+import { router } from 'src/utils/Router/Router';
 
-const inputs = [
-	{
-		title: 'Старый пароль',
-		value: 'pochta@yandex.ru',
-		name: 'old_password',
-		type: 'password',
-	},
-	{
-		title: 'Новый пароль',
-		value: 'ivanivanov',
-		name: 'password',
-		type: 'password',
-	},
-	{
-		title: 'Повторите пароль',
-		value: 'ivanivanov',
-		name: 'repeat_password',
-		type: 'password',
-	},
-];
+
+const passwords = ['oldPassword', 'newPassword']
 
 export class ChangeProfilePasswordPage extends Block {
 	constructor() {
@@ -34,34 +20,31 @@ export class ChangeProfilePasswordPage extends Block {
 	init() {
 		this.children.navigation = new NavBar();
 
-		this.children.avatar = new Avatar({
-			tag: '',
-			name: 'Иван',
-		});
-
-		inputs.forEach((input) => {
-			this.children[input.name] = new Input({
-				name: input.name,
-				label: input.title,
-				placeholder: '**********',
-				type: input.type,
+		for (const key of passwords) {
+			this.children[key] = new Input({
+				name: key,
+				label: getLabel(key),
+				placeholder: '*******',
 				events: {
-					input: () => {
-						(this.children[input.name] as Input).isValid();
-					},
-					focusout: () => {
-						(this.children[input.name] as Input).isValid();
-					},
 				},
 			});
-		});
+		}
 
 		this.children.button = new Button({
 			title: 'Сохранить',
 			type: 'submit',
 			events: {
-				click: (e) => {
-					(this.children.button as Button).getFormData(e);
+				click: async (e) => {
+					const data = (this.children.button as Button).getFormData(e);
+					console.log(data)
+					const response = await updateUserPassword({ payload: data })
+					const isOK = response.status;
+					if (isOK === 200) {
+						const userDataResponse = await getUserData();
+						const userData = await userDataResponse.response;
+						addUserData(userData);
+						router.go({ pathname: '/profile' });
+					}
 				},
 			},
 		});

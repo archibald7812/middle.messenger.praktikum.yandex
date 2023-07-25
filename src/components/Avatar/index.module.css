@@ -12,6 +12,9 @@
 		justify-content: center;
 		background: url("../../styles/images/Union.png") no-repeat center center;
 		background-color: $ligthGrey;
+		img {
+			border-radius: 50%;
+		}
 	}
 	h2 {
 		text-align: center;

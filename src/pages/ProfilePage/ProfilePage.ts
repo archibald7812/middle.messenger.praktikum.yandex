@@ -9,7 +9,7 @@ import { Link } from '../../components/Link/Link';
 import { Avatar } from '../../components/Avatar/Avatar';
 import { merge } from 'src/utils/helpers/merge';
 
-const getLabel = (key: any): string => {
+export const getLabel = (key: any): string => {
 	switch (key) {
 		case 'email': return 'Почта'
 		case 'login': return 'Логин'
@@ -17,6 +17,8 @@ const getLabel = (key: any): string => {
 		case 'second_name': return 'Фамилия'
 		case 'display_name': return 'Имя в чате'
 		case 'phone': return 'Телефон'
+		case 'oldPassword': return 'Старый пароль'
+		case 'newPassword': return 'Новый пароль'
 		default: return ''
 	}
 }
@@ -67,6 +69,7 @@ export class BaseProfilePage extends Block {
 		for (const key of profile) {
 			if (key === 'avatar') {
 				this.children.avatar = new Avatar({
+					src: this.props.avatar,
 					tag: '',
 				})
 			} else {

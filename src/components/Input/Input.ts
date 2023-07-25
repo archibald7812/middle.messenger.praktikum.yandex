@@ -9,6 +9,7 @@ interface IInput {
 	label?: string
 	disabled?: string
 	events?: Record<string, (e: HTMLElementEventMap['input'] | HTMLElementEventMap['blur']) => void>
+	value?: string
 }
 
 export class Input extends Block {

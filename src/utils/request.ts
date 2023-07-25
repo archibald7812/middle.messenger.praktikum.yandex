@@ -48,13 +48,20 @@ export const request = ({
 			xhr.send();
 			break;
 		}
-		case Methods.POST || Methods.PUT || Methods.DELETE: {
+		case Methods.POST:
+		case Methods.PUT:
+		case Methods.DELETE: {
 			xhr.open(method, requestUrl);
-			xhr.setRequestHeader('Content-Type', 'application/json');
-			xhr.send(JSON.stringify(payload ?? {}));
+			if (payload instanceof FormData) {
+				xhr.send(payload)
+			} else {
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.send(JSON.stringify(payload ?? {}))
+			}
 			break;
 		}
 		default: {
+			console.log('fail')
 			break;
 		}
 	}
