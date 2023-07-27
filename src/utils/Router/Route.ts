@@ -1,4 +1,4 @@
-import { ProfilePageStored } from '../../pages/ProfilePage';
+import { ProfilePage } from 'src/pages/ProfilePage/ProfilePage';
 import { Error404 } from '../../pages/404/404';
 import { Error500 } from '../../pages/500/500';
 import { ChangeProfileDataPage } from '../../pages/ChangeProfileDataPage/ChangeProfileDataPage';
@@ -10,7 +10,7 @@ import Block from '../Block';
 
 export type IRouteBlock =
 	| typeof RegistrationPage
-	| typeof ProfilePageStored
+	| typeof ProfilePage
 	| typeof LoginPage
 	| typeof ChatsPage
 	| typeof ChangeProfileDataPage
@@ -19,7 +19,7 @@ export type IRouteBlock =
 	| typeof Error500
 
 interface CustomWindow extends Window {
-	profile: typeof ProfilePageStored;
+	profile: typeof ProfilePage;
 }
 declare let window: CustomWindow;
 
@@ -33,7 +33,7 @@ export class Route {
 	constructor({ pathname, RouteBlock }: { pathname: string; RouteBlock: IRouteBlock }) {
 		this.pathname = pathname;
 		this.RouteBlock = RouteBlock;
-		this.block = new this.RouteBlock()
+		this.block = new this.RouteBlock({})
 	}
 
 	public leave() {
@@ -56,12 +56,14 @@ export class Route {
 	public render() {
 		const root = document.querySelector('#root');
 
+		root!.innerHTML = ''
+
 		if (root === null) {
 			throw new Error('#root is not found.');
 		}
 
 		if (!this.block) {
-			this.block = new this.RouteBlock();
+			this.block = new this.RouteBlock({});
 		} else {
 			this.block.show()
 		}

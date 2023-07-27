@@ -10,9 +10,6 @@ interface IButton {
 }
 
 export class Button extends Block {
-	constructor(props: IButton) {
-		super(props);
-	}
 
 	public getFormData(event: MouseEvent) {
 		event.preventDefault();

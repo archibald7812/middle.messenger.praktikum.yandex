@@ -1,8 +1,7 @@
 /* eslint-disable no-constructor-return */
 import Block from '../Block';
 import { EventBus } from '../EventBus';
-import { isEqual } from '../helpers/isEqual';
-import { merge } from '../helpers/merge';
+import { Socket } from '../Socket';
 import { set } from '../helpers/set';
 
 export type IUser = {
@@ -26,6 +25,7 @@ export type IChat = {
 		time: string
 		content: string
 	} | null
+	token?: number
 }
 
 export type IMessage = {
@@ -38,27 +38,21 @@ export type IMessage = {
 }
 
 export type IStoreState = {
-	activeChatId?: IChat['id'] | null
+	activeChat?: IChat | null
 	activeChaIMessages?: IMessage[]
 	activeChatParticipants?: IUser[]
 	authorizedUserData?: IUser | null
+	activeSocket?: Socket | null,
 	chats?: IChat[]
-	isAddingUserToChatDialogOpen?: boolean
-	isChatCreationDialogOpen?: boolean
-	isChatDeletionDialogOpen?: boolean
-	isChatParticipantsDialogOpen?: boolean
 }
 
 export const initialState: IStoreState = {
-	activeChatId: null,
+	activeChat: null,
 	activeChaIMessages: [],
 	activeChatParticipants: [],
 	authorizedUserData: null,
-	chats: [],
-	isAddingUserToChatDialogOpen: false,
-	isChatCreationDialogOpen: false,
-	isChatDeletionDialogOpen: false,
-	isChatParticipantsDialogOpen: false,
+	activeSocket: null,
+	chats: []
 };
 
 export default class Store extends EventBus {
@@ -75,18 +69,9 @@ export default class Store extends EventBus {
 
 		super();
 
-		const savedState = localStorage.getItem(Store.STORE_NAME);
-
-		this.state = savedState ? (JSON.parse(savedState) ?? {}) : initialState;
+		this.state = initialState;
 
 		Store._instance = this;
-
-		this.on(
-			Store.EVENT_UPDATE,
-			() => {
-				localStorage.setItem(Store.STORE_NAME, JSON.stringify(this.state));
-			},
-		);
 	}
 
 	getState() {
@@ -94,15 +79,14 @@ export default class Store extends EventBus {
 	}
 
 	removeState() {
-		this.state = {};
+		this.state = initialState;
 
 		this.emit(Store.EVENT_UPDATE);
 	}
 
 	set<TKey extends keyof IStoreState>(path: string, value: IStoreState[TKey]) {
-
 		set(this.state, path, value);
-
+		console.log('updatedStore', this.state.activeChaIMessages)
 		this.emit(Store.EVENT_UPDATE);
 		return this;
 	}

@@ -53,6 +53,17 @@ const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 
 
 export class BaseChangeProfileDataPage extends Block {
 
+	setProps(nextProps: any): void {
+		super.setProps(nextProps)
+
+		const props = { ...this.props }
+
+		for (const key of profile) {
+			this.children[key].setProps({ value: props[key] })
+		}
+
+	}
+
 	init() {
 		this.children.navigation = new NavBar();
 

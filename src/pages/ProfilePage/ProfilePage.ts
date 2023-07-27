@@ -8,6 +8,7 @@ import Block from '../../utils/Block';
 import { Link } from '../../components/Link/Link';
 import { Avatar } from '../../components/Avatar/Avatar';
 import { merge } from 'src/utils/helpers/merge';
+import { setStoreToInitState } from 'src/utils/Store/actions';
 
 export const getLabel = (key: any): string => {
 	switch (key) {
@@ -58,6 +59,7 @@ export class BaseProfilePage extends Block {
 			events: {
 				click: () => {
 					signOut();
+					setStoreToInitState()
 					const propsKeys: any = {}
 					profile.forEach(name => {
 						propsKeys[name] = null

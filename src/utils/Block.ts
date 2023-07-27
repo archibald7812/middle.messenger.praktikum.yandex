@@ -131,16 +131,6 @@ export default class Block<P extends Record<string, any> = any> {
 
 		merge(this.children, children)
 		merge(this.props, props)
-
-		/* if (Object.values(children).length) {
-			merge(this.children, children)
-			//Object.assign(this.children, children);
-		} */
-
-		/* if (Object.values(props).length) {
-			merge(this.props, props)
-			//Object.assign(this.props, props); 
-		} */
 	}
 
 	get element() {

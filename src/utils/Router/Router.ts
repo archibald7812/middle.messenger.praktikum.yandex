@@ -36,6 +36,10 @@ class Router {
 			return;
 		}
 
+		this.routes.forEach(route => {
+			route.leave()
+		})
+
 		if (this.currentRoute) this.currentRoute.leave()
 
 		this.currentRoute = route
