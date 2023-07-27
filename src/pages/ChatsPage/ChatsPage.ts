@@ -4,12 +4,12 @@ import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Input } from '../../components/Input/Input';
-import { Button } from 'src/components/Button/Button';
-import { InputText } from 'src/components/InputText/InputText';
+import { Button } from '../../components/Button/Button';
+import { InputText } from '../../components/InputText/InputText';
 import { addUsersToChat, createChat, getChats, getToken, removeUsersFromChat } from '../../api/ChatsApi';
-import { addChat, getActiveSocket } from 'src/utils/Store/actions';
+import { addChat, getActiveSocket } from '../../utils/Store/actions';
 import { IStoreState, withStore } from '../../utils/Store/store';
-import { ChatsList } from 'src/components/ChatsList/ChatsList';
+import { ChatsList } from '../../components/ChatsList/ChatsList';
 
 export class BaseChatsPage extends Block {
 

@@ -1,7 +1,7 @@
 import styles from './index.module.css';
 import Block from '../../utils/Block';
 import { IMessage, Message } from '../Message/Message';
-import { IStoreState, withStore } from 'src/utils/Store/store';
+import { IStoreState, withStore } from '../../utils/Store/store';
 
 export class BaseMessagesSection extends Block {
 

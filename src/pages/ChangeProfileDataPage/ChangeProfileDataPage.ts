@@ -3,51 +3,12 @@ import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
-import { IStoreState, withStore } from 'src/utils/Store/store';
+import { IStoreState, withStore } from '../../utils/Store/store';
 import { getLabel } from '../ProfilePage/ProfilePage';
-import { updateUserAvatar, updateUserData } from 'src/api/UserApi';
-import { getUserData } from 'src/api/AuthApi';
-import { addUserData } from 'src/utils/Store/actions';
-import { router } from 'src/utils/Router/Router';
-
-const inputs = [
-	{
-		title: 'Почта',
-		value: 'pochta@yandex.ru',
-		name: 'email',
-		type: 'email',
-	},
-	{
-		title: 'Логин',
-		value: 'ivanivanov',
-		name: 'login',
-		type: 'text',
-	},
-	{
-		title: 'Имя',
-		value: 'Иван',
-		name: 'first_name',
-		type: 'text',
-	},
-	{
-		title: 'Фамилия',
-		value: 'Иванов',
-		name: 'second_name',
-		type: 'text',
-	},
-	{
-		title: 'Имя в чате',
-		value: 'Иван',
-		name: 'display_name',
-		type: 'text',
-	},
-	{
-		title: 'Телефон',
-		value: '+7 (909) 967 30 30',
-		name: 'phone',
-		type: 'tel',
-	},
-];
+import { updateUserAvatar, updateUserData } from '../../api/UserApi';
+import { getUserData } from '../../api/AuthApi';
+import { addUserData } from '../../utils/Store/actions';
+import { router } from '../../utils/Router/Router';
 
 const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id']
 

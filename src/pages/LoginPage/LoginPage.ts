@@ -7,7 +7,7 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { Link } from '../../components/Link/Link';
-import { getChats, getToken } from 'src/api/ChatsApi';
+import { getChats, getToken } from '../../api/ChatsApi';
 
 export class LoginPage extends Block {
 	constructor() {
@@ -49,7 +49,7 @@ export class LoginPage extends Block {
 			title: 'Войти',
 			type: 'submit',
 			events: {
-				click: async (e) => {
+				click: async (e: any) => {
 					const payload = (this.children.button as Button).getFormData(e);
 					const response = await signIn({ payload });
 					const isAuthOK = await response.response;

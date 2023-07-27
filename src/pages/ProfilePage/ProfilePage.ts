@@ -7,8 +7,7 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Link } from '../../components/Link/Link';
 import { Avatar } from '../../components/Avatar/Avatar';
-import { merge } from 'src/utils/helpers/merge';
-import { setStoreToInitState } from 'src/utils/Store/actions';
+import { setStoreToInitState } from '../../utils/Store/actions';
 
 export const getLabel = (key: any): string => {
 	switch (key) {

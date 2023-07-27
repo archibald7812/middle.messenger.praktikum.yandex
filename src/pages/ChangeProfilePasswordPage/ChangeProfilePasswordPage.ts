@@ -4,10 +4,10 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { getLabel } from '../ProfilePage/ProfilePage';
-import { updateUserPassword } from 'src/api/UserApi';
-import { getUserData } from 'src/api/AuthApi';
-import { addUserData } from 'src/utils/Store/actions';
-import { router } from 'src/utils/Router/Router';
+import { updateUserPassword } from '../../api/UserApi';
+import { getUserData } from '../../api/AuthApi';
+import { addUserData } from '../../utils/Store/actions';
+import { router } from '../../utils/Router/Router';
 
 
 const passwords = ['oldPassword', 'newPassword']

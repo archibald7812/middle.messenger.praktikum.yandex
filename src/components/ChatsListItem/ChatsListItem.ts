@@ -2,11 +2,11 @@
 import styles from './index.module.css';
 import Block from '../../utils/Block';
 import { UnreadMessages } from '../UnreadMessages/UnreadMessages';
-import { clearSocket, getActiveSocket, setActiveChat, setActiveSocket } from 'src/utils/Store/actions';
+import { clearSocket, getActiveSocket, setActiveChat, setActiveSocket } from '../../utils/Store/actions';
 import { DeleteButton } from '../DeleteButton/DeleteButton';
-import { deleteChat, getToken } from 'src/api/ChatsApi';
-import { IStoreState, withStore } from 'src/utils/Store/store';
-import { Socket } from 'src/utils/Socket';
+import { deleteChat, getToken } from '../../api/ChatsApi';
+import { IStoreState, withStore } from '../../utils/Store/store';
+import { Socket } from '../../utils/Socket';
 
 export interface IChatsListItem {
 	id: number
