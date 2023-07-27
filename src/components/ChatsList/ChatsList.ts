@@ -1,4 +1,4 @@
-import { withStore, IStoreState, IChat } from 'src/utils/Store/store';
+import { withStore, IStoreState, IChat } from '../../utils/Store/store';
 import Block from '../../utils/Block';
 import styles from './index.module.css';
 import { ChatsListItem } from '../ChatsListItem/ChatsListItem';
