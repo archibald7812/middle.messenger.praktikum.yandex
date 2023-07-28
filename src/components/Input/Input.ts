@@ -9,12 +9,13 @@ interface IInput {
 	label?: string
 	disabled?: string
 	events?: Record<string, (e: HTMLElementEventMap['input'] | HTMLElementEventMap['blur']) => void>
+	value?: string
 }
 
 export class Input extends Block {
-	constructor(props: IInput) {
-		super(props);
-	}
+	/* 	constructor(props: IInput) {
+			super(props);
+		} */
 
 	public setValue(value: string) {
 		return (this.element.children[1] as HTMLInputElement).value = value;
@@ -30,7 +31,6 @@ export class Input extends Block {
 
 	public isValid() {
 		const elem = this.element as HTMLDivElement;
-		console.log(validationFunc(elem));
 	}
 
 	render() {

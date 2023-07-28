@@ -13,12 +13,12 @@
 
 :focus,
 :active {
-	/*outline: none;*/
+	/* outline: none; */
 }
 
 a:focus,
 a:active {
-	/* outline: none;*/
+	/* outline: none; */
 }
 
 /* Links */
@@ -97,8 +97,8 @@ button,
 input[type="submit"] {
 	display: inline-block;
 	box-shadow: none;
-	background-color: transparent;
 	background: none;
+	background-color: transparent;
 	cursor: pointer;
 }
 
