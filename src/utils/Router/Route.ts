@@ -8,7 +8,7 @@ import { LoginPage } from '../../pages/LoginPage/LoginPage';
 import { RegistrationPage } from '../../pages/RegistrationPage/RegistrationPage';
 import Block from '../Block';
 
-export type IRouteBlock =
+export type RouteBlock =
 	| typeof RegistrationPage
 	| typeof ProfilePage
 	| typeof LoginPage
@@ -26,11 +26,11 @@ declare let window: CustomWindow;
 export class Route {
 	private pathname: string;
 
-	private RouteBlock: IRouteBlock;
+	private RouteBlock: RouteBlock;
 
 	public block: Block
 
-	constructor({ pathname, RouteBlock }: { pathname: string; RouteBlock: IRouteBlock }) {
+	constructor({ pathname, RouteBlock }: { pathname: string; RouteBlock: RouteBlock }) {
 		this.pathname = pathname;
 		this.RouteBlock = RouteBlock;
 		this.block = new this.RouteBlock({})

@@ -73,14 +73,19 @@ export class RegistrationPage extends Block {
 			title: 'Регистрация',
 			type: 'submit',
 			events: {
-				click: async (e) => {
-					const payload = (this.children.button as Button).getFormData(e);
-					if (!payload) return;
-					const response = await signUp({ payload });
-					if (response.status === 200) {
-						await getUserData();
-						router.go({ pathname: '/profile' });
+				click: async (e: MouseEvent) => {
+					try {
+						const payload = (this.children.button as Button).getFormData(e);
+						if (!payload) return;
+						const response = await signUp({ payload });
+						if (response.status === 200) {
+							await getUserData();
+							router.go({ pathname: '/profile' });
+						}
+					} catch (e) {
+						console.log(e)
 					}
+
 				},
 			},
 		});

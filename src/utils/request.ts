@@ -5,7 +5,7 @@ export enum Methods {
 	DELETE = 'DELETE',
 }
 
-interface requestParams {
+interface RequestParams {
 	payload?: Record<string, unknown> | any
 	method: Methods
 	query?: Record<string, unknown>
@@ -19,7 +19,7 @@ export const request = ({
 	query,
 	timeout,
 	url,
-}: requestParams): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
+}: RequestParams): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
 	const requestUrl = new URL(`/api/v2${url}`, 'https://ya-praktikum.tech');
 
 	const xhr = new XMLHttpRequest();

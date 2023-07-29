@@ -1,10 +1,15 @@
 import { Socket } from '../Socket';
-import Store, { IChat, IMessage } from './store';
+import Store, { Chat, Message } from './store';
 
 export const store = new Store();
 
 export const addUserData = (userData: any) => {
-	userData = JSON.parse(userData);
+	try {
+		userData = JSON.parse(userData);
+	} catch (e) {
+		console.log(e)
+	}
+
 	store.set('authorizedUserData', userData);
 };
 
@@ -12,9 +17,9 @@ export const addChat = (chatsData: any) => {
 	store.set(`chats`, chatsData);
 };
 
-export const setActiveChat = (chat: IChat) => {
+export const setActiveChat = (chat: Chat) => {
 	store.set('activeChat', chat)
-	store.set('activeChaIMessages', [])
+	store.set('activeChaMessages', [])
 }
 
 export const setStoreToInitState = () => {
@@ -33,6 +38,11 @@ export const getActiveSocket = () => {
 	return store.getState().activeSocket
 }
 
-export const addOldMessages = (messages: IMessage[]) => {
-	store.set('activeChaIMessages', messages)
+export const addOldMessages = (messages: Message[]) => {
+	store.set('activeChaMessages', messages)
+}
+
+export const deleteChatFromSore = (chatId: number) => {
+	const chats = store.getState().chats?.filter(chat => chat.id !== chatId)
+	store.set(`chats`, chats);
 }

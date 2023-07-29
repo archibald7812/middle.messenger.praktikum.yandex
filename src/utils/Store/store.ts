@@ -4,7 +4,7 @@ import { EventBus } from '../EventBus';
 import { Socket } from '../Socket';
 import { set } from '../helpers/set';
 
-export type IUser = {
+export type User = {
 	avatar: string | null
 	display_name: string | null
 	email: string
@@ -15,40 +15,40 @@ export type IUser = {
 	second_name: string
 }
 
-export type IChat = {
+export type Chat = {
 	id: number
 	title: string
 	avatar: string | null
 	unread_count: number
 	last_message: {
-		user: IUser
+		user: User
 		time: string
 		content: string
 	} | null
 	token?: number
 }
 
-export type IMessage = {
+export type Message = {
 	id: number
-	chat_id: IChat['id']
+	chat_id: Chat['id']
 	time: string
 	type: string
-	user_id: IUser['id']
+	user_id: User['id']
 	content: string
 }
 
-export type IStoreState = {
-	activeChat?: IChat | null
-	activeChaIMessages?: IMessage[]
-	activeChatParticipants?: IUser[]
-	authorizedUserData?: IUser | null
+export type StoreState = {
+	activeChat?: Chat | null
+	activeChatMessages?: Message[]
+	activeChatParticipants?: User[]
+	authorizedUserData?: User | null
 	activeSocket?: Socket | null,
-	chats?: IChat[]
+	chats?: Chat[]
 }
 
-export const initialState: IStoreState = {
+export const initialState: StoreState = {
 	activeChat: null,
-	activeChaIMessages: [],
+	activeChatMessages: [],
 	activeChatParticipants: [],
 	authorizedUserData: null,
 	activeSocket: null,
@@ -56,7 +56,7 @@ export const initialState: IStoreState = {
 };
 
 export default class Store extends EventBus {
-	private state: IStoreState = initialState;
+	private state: StoreState = initialState;
 
 	static EVENT_UPDATE = 'EVENT_STORE_UPDATE';
 
@@ -84,9 +84,9 @@ export default class Store extends EventBus {
 		this.emit(Store.EVENT_UPDATE);
 	}
 
-	set<TKey extends keyof IStoreState>(path: string, value: IStoreState[TKey]) {
+	set<TKey extends keyof StoreState>(path: string, value: StoreState[TKey]) {
 		set(this.state, path, value);
-		console.log('updatedStore', this.state.activeChaIMessages)
+		console.log('updatedStore', this.state.activeChatMessages)
 		this.emit(Store.EVENT_UPDATE);
 		return this;
 	}
@@ -94,7 +94,7 @@ export default class Store extends EventBus {
 
 const store = new Store();
 
-export function withStore(mapStateToProps: (state: IStoreState) => any) {
+export function withStore(mapStateToProps: (state: StoreState) => any) {
 	return (Component: typeof Block) => {
 		return class extends Component {
 			constructor(props: any) {

@@ -10,9 +10,9 @@ import { ChatsPage } from './pages/ChatsPage/ChatsPage';
 import { router } from './utils/Router/Router';
 import Store from './utils/Store/store';
 import { getUserData } from './api/AuthApi';
-import { addChat, addUserData, store } from './utils/Store/actions';
+import { addChat, addUserData } from './utils/Store/actions';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
-import { getChats, getToken } from './api/ChatsApi';
+import { getChats } from './api/ChatsApi';
 
 interface CustomWindow extends Window {
 	AppStore?: Store;
@@ -22,17 +22,19 @@ declare let window: CustomWindow;
 window.AppStore = new Store();
 
 const start = async () => {
-	const userDataResponse = await getUserData();
-	const userData = await userDataResponse.response;
-	const chatsDataResponse = await getChats();
-	const chatsData = await chatsDataResponse.response;
-	const chats = JSON.parse(chatsData);
-
-	addChat(chats);
-
-	const userResult = JSON.parse(userData);
-	if (userResult.reason === 'Cookie is not valid') return
-	addUserData(userData);
+	try {
+		const userDataResponse = await getUserData();
+		const userData = await userDataResponse.response;
+		const chatsDataResponse = await getChats();
+		const chatsData = await chatsDataResponse.response;
+		const chats = JSON.parse(chatsData);
+		addChat(chats);
+		const userResult = JSON.parse(userData);
+		if (userResult.reason === 'Cookie is not valid') return
+		addUserData(userData);
+	} catch (e) {
+		console.log(e)
+	}
 	router.go({ pathname: '/messenger' });
 }
 

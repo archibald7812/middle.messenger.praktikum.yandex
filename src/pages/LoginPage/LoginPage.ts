@@ -49,27 +49,31 @@ export class LoginPage extends Block {
 			title: 'Войти',
 			type: 'submit',
 			events: {
-				click: async (e: any) => {
-					const payload = (this.children.button as Button).getFormData(e);
-					const response = await signIn({ payload });
-					const isAuthOK = await response.response;
-					if (isAuthOK === 'OK') {
-						const userDataResponse = await getUserData();
-						const userData = await userDataResponse.response;
-						addUserData(userData);
-						const chatsDataResponse = await getChats();
-						const chatsData = await chatsDataResponse.response;
-						const chats = JSON.parse(chatsData);
+				click: async (e: MouseEvent) => {
+					try {
+						const payload = (this.children.button as Button).getFormData(e);
+						const response = await signIn({ payload });
+						const isAuthOK = await response.response;
+						if (isAuthOK === 'OK') {
+							const userDataResponse = await getUserData();
+							const userData = await userDataResponse.response;
+							addUserData(userData);
+							const chatsDataResponse = await getChats();
+							const chatsData = await chatsDataResponse.response;
+							const chats = JSON.parse(chatsData);
 
-						const chatPromises = await chats.map(async (chat: any) => {
-							const tokenResponse = await getToken(chat.id);
-							const token = await JSON.parse(tokenResponse.response);
-							const chatWithToken = { ...chat, token: token.token };
-							return chatWithToken;
-						});
-						const chatsWithToken = await Promise.all(chatPromises);
-						addChat(chatsWithToken);
-						router.go({ pathname: '/messenger' });
+							const chatPromises = await chats.map(async (chat: any) => {
+								const tokenResponse = await getToken(chat.id);
+								const token = await JSON.parse(tokenResponse.response);
+								const chatWithToken = { ...chat, token: token.token };
+								return chatWithToken;
+							});
+							const chatsWithToken = await Promise.all(chatPromises);
+							addChat(chatsWithToken);
+							router.go({ pathname: '/messenger' });
+						}
+					} catch (e) {
+						console.log(e)
 					}
 				},
 			},

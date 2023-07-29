@@ -8,7 +8,7 @@ import { Button } from '../../components/Button/Button';
 import { InputText } from '../../components/InputText/InputText';
 import { addUsersToChat, createChat, getChats, getToken, removeUsersFromChat } from '../../api/ChatsApi';
 import { addChat, getActiveSocket } from '../../utils/Store/actions';
-import { IStoreState, withStore } from '../../utils/Store/store';
+import { StoreState, withStore } from '../../utils/Store/store';
 import { ChatsList } from '../../components/ChatsList/ChatsList';
 
 export class BaseChatsPage extends Block {
@@ -29,7 +29,6 @@ export class BaseChatsPage extends Block {
 			events: {
 				input: (e: any) => {
 					e.preventDefault()
-					console.log(e.target.value)
 					this.children.inputChat.setValue(e.target.value)
 				},
 			}
@@ -42,20 +41,24 @@ export class BaseChatsPage extends Block {
 				click: async (e: any) => {
 					e.preventDefault()
 					const data = this.children.inputChat.getValue()
-					const createChatResponse = await createChat(data)
-					if (createChatResponse.status === 200) {
-						const chatsDataResponse = await getChats()
-						const chatsData = await chatsDataResponse.response
-						const chats = JSON.parse(chatsData)
-						const chatPromises = await chats.map(async (chat: any) => {
-							const tokenResponse = await getToken(chat.id);
-							const token = await JSON.parse(tokenResponse.response);
-							const chatWithToken = { ...chat, token: token.token };
-							return chatWithToken;
-						});
-						const chatsWithToken = await Promise.all(chatPromises);
+					try {
+						const createChatResponse = await createChat(data)
+						if (createChatResponse.status === 200) {
+							const chatsDataResponse = await getChats()
+							const chatsData = await chatsDataResponse.response
+							const chats = JSON.parse(chatsData)
+							const chatPromises = await chats.map(async (chat: any) => {
+								const tokenResponse = await getToken(chat.id);
+								const token = await JSON.parse(tokenResponse.response);
+								const chatWithToken = { ...chat, token: token.token };
+								return chatWithToken;
+							});
+							const chatsWithToken = await Promise.all(chatPromises);
 
-						addChat(chatsWithToken);
+							addChat(chatsWithToken);
+						}
+					} catch (e) {
+						console.log(e)
 					}
 				},
 			}
@@ -66,7 +69,6 @@ export class BaseChatsPage extends Block {
 			events: {
 				input: (e: any) => {
 					e.preventDefault()
-					console.log(e.target.value)
 					this.children.inputChat.setValue(e.target.value)
 				},
 			}
@@ -76,10 +78,14 @@ export class BaseChatsPage extends Block {
 			title: 'Добавить пользователя',
 			type: 'submit',
 			events: {
-				click: async (e: any) => {
+				click: async (e: MouseEvent) => {
 					e.preventDefault()
 					const data = this.children.inputUser.getValue()
-					await addUsersToChat(data, this.props.activeChat.id)
+					try {
+						await addUsersToChat(data, this.props.activeChat.id)
+					} catch (e) {
+						console.log(e)
+					}
 				},
 			}
 		});
@@ -91,7 +97,11 @@ export class BaseChatsPage extends Block {
 				click: async (e: any) => {
 					e.preventDefault()
 					const data = this.children.inputUser.getValue()
-					await removeUsersFromChat(data, this.props.activeChat.id)
+					try {
+						await removeUsersFromChat(data, this.props.activeChat.id)
+					} catch (e) {
+						console.log(e)
+					}
 				},
 			}
 		});
@@ -121,7 +131,11 @@ export class BaseChatsPage extends Block {
 					const message = this.children.newMessage.getValue()
 					const socket = getActiveSocket()
 					if (!message || !socket) return
-					socket.sendMessage(message)
+					try {
+						socket.sendMessage(message)
+					} catch (e) {
+						console.log(e)
+					}
 				}
 			},
 		});
@@ -132,8 +146,8 @@ export class BaseChatsPage extends Block {
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
-	return { chats: state.chats, activeChat: state.activeChat, activeChatMessages: state.activeChaIMessages };
+function mapStateToProps(state: StoreState) {
+	return { chats: state.chats, activeChat: state.activeChat, activeChatMessages: state.activeChatMessages };
 }
 
 export const ChatsPage = withStore(mapStateToProps)(BaseChatsPage);

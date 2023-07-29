@@ -1,4 +1,4 @@
-import { withStore, IStoreState, IChat } from '../../utils/Store/store';
+import { withStore, StoreState } from '../../utils/Store/store';
 import Block from '../../utils/Block';
 import styles from './index.module.css';
 import { ChatsListItem } from '../ChatsListItem/ChatsListItem';
@@ -16,7 +16,6 @@ export interface IChatsListItem {
 export class BaseChatsList extends Block {
 
 	setProps(nextProps: any): void {
-
 		const newChats = nextProps.chats.filter((item: any) => {
 			if (this.props.chats.find((chat: any) => chat.id === item.id)) return false
 			else return true
@@ -60,9 +59,8 @@ export class BaseChatsList extends Block {
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: StoreState) {
 	return { chats: state.chats, activeChat: state.activeChat };
 }
 
 export const ChatsList = withStore(mapStateToProps)(BaseChatsList);
-

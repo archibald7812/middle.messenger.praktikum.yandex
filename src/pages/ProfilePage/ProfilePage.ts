@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-syntax */
-import { IStoreState, withStore } from '../../utils/Store/store';
+import { StoreState, withStore } from '../../utils/Store/store';
 import { signOut } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
 import { tmpl } from './tmpl';
@@ -57,13 +57,17 @@ export class BaseProfilePage extends Block {
 			to: '/log-in',
 			events: {
 				click: () => {
-					signOut();
-					setStoreToInitState()
-					const propsKeys: any = {}
-					profile.forEach(name => {
-						propsKeys[name] = null
-					})
-					this.setProps(propsKeys)
+					try {
+						signOut();
+						setStoreToInitState()
+						const propsKeys: any = {}
+						profile.forEach(name => {
+							propsKeys[name] = null
+						})
+						this.setProps(propsKeys)
+					} catch (e) {
+						console.log(e)
+					}
 				},
 			},
 		});
@@ -92,7 +96,7 @@ export class BaseProfilePage extends Block {
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: StoreState) {
 	return { ...state.authorizedUserData };
 }
 

@@ -2,10 +2,10 @@
 import styles from './index.module.css';
 import Block from '../../utils/Block';
 import { UnreadMessages } from '../UnreadMessages/UnreadMessages';
-import { clearSocket, getActiveSocket, setActiveChat, setActiveSocket } from '../../utils/Store/actions';
+import { clearSocket, deleteChatFromSore, setActiveChat, setActiveSocket } from '../../utils/Store/actions';
 import { DeleteButton } from '../DeleteButton/DeleteButton';
 import { deleteChat, getToken } from '../../api/ChatsApi';
-import { IStoreState, withStore } from '../../utils/Store/store';
+import { StoreState, withStore } from '../../utils/Store/store';
 import { Socket } from '../../utils/Socket';
 
 export interface IChatsListItem {
@@ -29,10 +29,14 @@ export class BaseChatsListItem extends Block {
 			click: async (e: any) => {
 				e.preventDefault()
 				clearSocket()
-				const tokenResponse = await getToken(this.props.chatData.id);
-				const token = await JSON.parse(tokenResponse.response);
-				const activeChat = { ...this.props.chatData, token: token.token }
-				setActiveChat(activeChat)
+				try {
+					const tokenResponse = await getToken(this.props.chatData.id);
+					const token = await JSON.parse(tokenResponse.response);
+					const activeChat = { ...this.props.chatData, token: token.token }
+					setActiveChat(activeChat)
+				} catch (e) {
+					console.log(e)
+				}
 				const socket = new Socket()
 				setActiveSocket(socket)
 			}
@@ -47,7 +51,12 @@ export class BaseChatsListItem extends Block {
 			events: {
 				click: async (e: any) => {
 					e.preventDefault()
-					await deleteChat(this.props.chatData.id)
+					try {
+						await deleteChat(this.props.chatData.id)
+					} catch (e) {
+						console.log(e)
+					}
+					deleteChatFromSore(this.props.chatData.id)
 				}
 			}
 		});
@@ -72,9 +81,8 @@ export class BaseChatsListItem extends Block {
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: StoreState) {
 	return { activeChat: state.activeChat };
 }
 
 export const ChatsListItem = withStore(mapStateToProps)(BaseChatsListItem);
-

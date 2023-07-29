@@ -22,4 +22,3 @@ export const updateUserAvatar = ({ payload }: { payload: any }) => {
 export const updateUserPassword = ({ payload }: { payload: any }) => {
 	return request({ method: Methods.PUT, url: '/user/password', payload })
 };
-

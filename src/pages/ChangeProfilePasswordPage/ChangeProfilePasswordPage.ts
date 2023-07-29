@@ -34,16 +34,19 @@ export class ChangeProfilePasswordPage extends Block {
 			title: 'Сохранить',
 			type: 'submit',
 			events: {
-				click: async (e) => {
+				click: async (e: MouseEvent) => {
 					const data = (this.children.button as Button).getFormData(e);
-					console.log(data)
-					const response = await updateUserPassword({ payload: data })
-					const isOK = response.status;
-					if (isOK === 200) {
-						const userDataResponse = await getUserData();
-						const userData = await userDataResponse.response;
-						addUserData(userData);
-						router.go({ pathname: '/profile' });
+					try {
+						const response = await updateUserPassword({ payload: data })
+						const isOK = response.status;
+						if (isOK === 200) {
+							const userDataResponse = await getUserData();
+							const userData = await userDataResponse.response;
+							addUserData(userData);
+							router.go({ pathname: '/profile' });
+						}
+					} catch (e) {
+						console.log(e)
 					}
 				},
 			},

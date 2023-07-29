@@ -23,4 +23,3 @@ export const removeUsersFromChat = (users: string, chatId: number) => {
 export const deleteChat = (chatId: number) => {
 	return request({ method: Methods.DELETE, url: '/chats', payload: { chatId: chatId } })
 };
-

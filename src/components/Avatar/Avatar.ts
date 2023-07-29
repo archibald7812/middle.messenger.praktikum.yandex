@@ -1,13 +1,6 @@
 import Block from '../../utils/Block';
 import styles from './index.module.css';
 
-interface IAvatar {
-	tag?: string
-	name?: string
-	events?: Record<string, (event: MouseEvent) => void>
-	type?: string
-}
-
 export class Avatar extends Block {
 
 	render() {

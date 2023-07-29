@@ -31,5 +31,3 @@ export const tmpl = `
 			</ul>
 		</nav>
 	</header>`;
-
-//

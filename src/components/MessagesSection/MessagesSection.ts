@@ -1,7 +1,7 @@
 import styles from './index.module.css';
 import Block from '../../utils/Block';
 import { IMessage, Message } from '../Message/Message';
-import { IStoreState, withStore } from '../../utils/Store/store';
+import { StoreState, withStore } from '../../utils/Store/store';
 
 export class BaseMessagesSection extends Block {
 
@@ -40,8 +40,8 @@ export class BaseMessagesSection extends Block {
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
-	return { userId: state.authorizedUserData?.id, messages: state.activeChaIMessages };
+function mapStateToProps(state: StoreState) {
+	return { userId: state.authorizedUserData?.id, messages: state.activeChatMessages };
 }
 
 export const MessagesSection = withStore(mapStateToProps)(BaseMessagesSection);

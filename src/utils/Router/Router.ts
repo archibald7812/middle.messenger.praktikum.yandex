@@ -1,6 +1,6 @@
 /* eslint-disable no-constructor-return */
 import { Error404 } from '../../pages/404/404';
-import { Route, IRouteBlock } from './Route';
+import { Route, RouteBlock } from './Route';
 
 class Router {
 	private static instance: Router | null;
@@ -23,7 +23,7 @@ class Router {
 		}
 	}
 
-	public use({ pathname, RouteBlock }: { pathname: string; RouteBlock: IRouteBlock }) {
+	public use({ pathname, RouteBlock }: { pathname: string; RouteBlock: RouteBlock }) {
 		this.routes.push(new Route({ pathname, RouteBlock }));
 		return this;
 	}
@@ -43,11 +43,6 @@ class Router {
 		if (this.currentRoute) this.currentRoute.leave()
 
 		this.currentRoute = route
-
-		/* if (isCurrentPathnameProtected() && store.getState().authorizedUserData === null) {
-			this.go({ pathname: '/' });
-			return;
-		} */
 
 		route?.render();
 	}

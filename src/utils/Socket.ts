@@ -1,8 +1,8 @@
 import { addOldMessages, store } from "./Store/actions";
-import { IStoreState } from "./Store/store";
+import { StoreState } from "./Store/store";
 
 export class Socket {
-	state: IStoreState
+	state: StoreState
 	chatId: number | undefined
 	token: number | undefined
 	userId: number | undefined
@@ -32,16 +32,17 @@ export class Socket {
 		});
 
 		this.socket.addEventListener('message', event => {
-			const newMessages = JSON.parse(event.data)
-			if (newMessages.type === 'user connected') return
-			console.log(newMessages)
-			const oldMessages = this.state.activeChaIMessages ?? []
-			Array.isArray(newMessages) ?
-				oldMessages?.push(...newMessages) :
-				oldMessages?.push(newMessages)
-			console.log(5, newMessages)
-			console.log(6, oldMessages)
-			addOldMessages(oldMessages)
+			try {
+				const newMessages = JSON.parse(event.data)
+				if (newMessages.type === 'user connected') return
+				const oldMessages = this.state.activeChatMessages ?? []
+				Array.isArray(newMessages) ?
+					oldMessages?.push(...newMessages) :
+					oldMessages?.push(newMessages)
+				addOldMessages(oldMessages)
+			} catch (e) {
+				console.log(e)
+			}
 		});
 
 		this.socket.addEventListener('error', error => {
