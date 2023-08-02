@@ -15,15 +15,7 @@ const tabs = [
 	},
 	{
 		label: 'Чаты',
-		link: 'chats',
-	},
-	{
-		label: '404',
-		link: '404',
-	},
-	{
-		label: '500',
-		link: '500',
+		link: 'messenger',
 	},
 ];
 
@@ -31,12 +23,11 @@ export const tmpl = `
 	<header class="${styles.root}">
 		<nav>
 			<ul>
-				${tabs
-		.map((tab) => (`
-						<div>
-							<li><a href='/${tab.link}'>${tab.label}</a></li>
-						</div>`))
-		.join('')}
+			${tabs.map((tab) => (`
+				<div>
+					<li><a href='/${tab.link}'>${tab.label}</a></li>
+				</div>
+				`)).join('')}
 			</ul>
 		</nav>
 	</header>`;

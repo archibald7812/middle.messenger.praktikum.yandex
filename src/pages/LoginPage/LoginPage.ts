@@ -1,9 +1,13 @@
+import { addChat, addUserData } from '../../utils/Store/actions';
+import { router } from '../../utils/Router/Router';
+import { getUserData, signIn } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
 import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { Link } from '../../components/Link/Link';
+import { getChats, getToken } from '../../api/ChatsApi';
 
 export class LoginPage extends Block {
 	constructor() {
@@ -45,8 +49,32 @@ export class LoginPage extends Block {
 			title: 'Войти',
 			type: 'submit',
 			events: {
-				click: (e) => {
-					(this.children.button as Button).getFormData(e);
+				click: async (e: MouseEvent) => {
+					try {
+						const payload = (this.children.button as Button).getFormData(e);
+						const response = await signIn({ payload });
+						const isAuthOK = await response.response;
+						if (isAuthOK === 'OK') {
+							const userDataResponse = await getUserData();
+							const userData = await userDataResponse.response;
+							addUserData(userData);
+							const chatsDataResponse = await getChats();
+							const chatsData = await chatsDataResponse.response;
+							const chats = JSON.parse(chatsData);
+
+							const chatPromises = await chats.map(async (chat: any) => {
+								const tokenResponse = await getToken(chat.id);
+								const token = await JSON.parse(tokenResponse.response);
+								const chatWithToken = { ...chat, token: token.token };
+								return chatWithToken;
+							});
+							const chatsWithToken = await Promise.all(chatPromises);
+							addChat(chatsWithToken);
+							router.go({ pathname: '/messenger' });
+						}
+					} catch (e) {
+						console.log(e)
+					}
 				},
 			},
 		});

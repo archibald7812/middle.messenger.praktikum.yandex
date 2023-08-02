@@ -1,18 +1,17 @@
-import { tmpl } from './tmpl';
 import Block from '../../utils/Block';
-
-interface IAvatar {
-	tag?: string
-	name?: string
-	events?: Record<string, (event: MouseEvent) => void>
-}
+import styles from './index.module.css';
 
 export class Avatar extends Block {
-	constructor(props: IAvatar) {
-		super(props);
-	}
 
 	render() {
-		return this.compile(tmpl, this.props);
+		return this.compile(`
+		<div class="${styles.root}">
+			<div class="${styles.avatar}">
+			${this.props.src ?
+				`<img src= "https://ya-praktikum.tech/api/v2/resources${this.props.src}" alt="Аватар"/>` :
+				''}
+			</div>
+	</div>
+		`, this.props);
 	}
 }

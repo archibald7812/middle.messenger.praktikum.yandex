@@ -1,12 +1,12 @@
-enum Methods {
+export enum Methods {
 	GET = 'GET',
 	POST = 'POST',
 	PUT = 'PUT',
 	DELETE = 'DELETE',
 }
 
-interface requestParams {
-	body?: Record<string, unknown>
+interface RequestParams {
+	payload?: Record<string, unknown> | any
 	method: Methods
 	query?: Record<string, unknown>
 	timeout?: number
@@ -14,12 +14,14 @@ interface requestParams {
 }
 
 export const request = ({
-	body,
+	payload,
 	method,
 	query,
 	timeout,
 	url,
-}: requestParams): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
+}: RequestParams): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
+	const requestUrl = new URL(`/api/v2${url}`, 'https://ya-praktikum.tech');
+
 	const xhr = new XMLHttpRequest();
 
 	xhr.onload = () => {
@@ -30,6 +32,7 @@ export const request = ({
 	xhr.onerror = reject;
 	xhr.ontimeout = reject;
 	xhr.timeout = timeout ?? 5000;
+	xhr.withCredentials = true;
 
 	switch (method) {
 		case Methods.GET: {
@@ -40,17 +43,25 @@ export const request = ({
 					.map(([key, value]) => `${key}=${value}`)
 					.join('&')}`;
 			}
-
-			xhr.open(method, url + queryString);
+			xhr.open(method, requestUrl + queryString);
+			xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.send();
 			break;
 		}
-		case Methods.POST || Methods.PUT || Methods.DELETE: {
-			xhr.open(method, url);
-			xhr.send(JSON.stringify(body ?? {}));
+		case Methods.POST:
+		case Methods.PUT:
+		case Methods.DELETE: {
+			xhr.open(method, requestUrl);
+			if (payload instanceof FormData) {
+				xhr.send(payload)
+			} else {
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.send(JSON.stringify(payload ?? {}))
+			}
 			break;
 		}
 		default: {
+			console.log('fail')
 			break;
 		}
 	}

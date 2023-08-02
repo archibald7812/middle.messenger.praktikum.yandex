@@ -1,6 +1,4 @@
-import { chats, messages } from './data';
 import styles from './index.module.css';
-import attach from '../../styles/images/Attach.svg';
 
 export const tmpl = `
 	<div class='${styles.root}'>
@@ -8,29 +6,32 @@ export const tmpl = `
 		<main class='${styles.body}'>
 			<div class='${styles.sideBar}'>
 				<div class='${styles.searchSection}'>
-					<div class='${styles.profile}'>{{{profileLink}}}</div>
-					<div class='${styles.search}'>
-						<input type='text' placeholder='Поиск...'/>
-					</div>
+					<form>
+						{{{inputChat}}}
+						<div class='${styles.createChat}'>{{{createChat}}}</div>
+					</form>
 				</div>
-				<div class='${styles.chatsSection}'>
-					${chats.map((chat) => `{{{chatsListItem${chat.id}}}}`).join('')}
-				</div>
+				{{{chatsList}}}
 			</div>
 			<div class='${styles.chat}'>
 				<div class='${styles.topSection}'>
-					<div class='${styles.avatar}'>{{{avatar}}}<span>Иван</span></div>
-					<div class='${styles.settings}'></div>
+					<div class='${styles.avatar}'>{{{avatar}}}<span>{{activeChat.title}}</span></div>
+					<div class='${styles.inputUser}'>{{{inputUser}}}</div>
+					<div class='${styles.addUser}'>{{{addUser}}}</div>
+					<div class='${styles.removeUserUser}'>{{{removeUser}}}</div>
 				</div>
 				<div class='${styles.messagesSection}'>
-					${messages.map((message) => (`{{{messageListItem${message.id}}}}`)).join('')}
+					{{{messageListItem}}}
 				</div>
 				<div class='${styles.newMessageSection}'>
-					<img src=${attach}} alt='Выберите файл'/>
-					<form>{{{newMessage}}}</form>
-					<span class='${styles.send}'/>
+					<form>
+						{{{newMessage}}}
+						{{{sendMessage}}}
+					</form>
 				</div>
 			</div>
 		</main>
 	</div>
 `;
+
+//<img src=${attach}} alt='Выберите файл'/>

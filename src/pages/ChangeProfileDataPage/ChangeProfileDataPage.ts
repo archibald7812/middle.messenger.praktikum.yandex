@@ -3,82 +3,88 @@ import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
-import { Avatar } from '../../components/Avatar/Avatar';
+import { StoreState, withStore } from '../../utils/Store/store';
+import { getLabel } from '../ProfilePage/ProfilePage';
+import { updateUserAvatar, updateUserData } from '../../api/UserApi';
+import { getUserData } from '../../api/AuthApi';
+import { addUserData } from '../../utils/Store/actions';
+import { router } from '../../utils/Router/Router';
 
-const inputs = [
-	{
-		title: 'Почта',
-		value: 'pochta@yandex.ru',
-		name: 'email',
-		type: 'email',
-	},
-	{
-		title: 'Логин',
-		value: 'ivanivanov',
-		name: 'login',
-		type: 'text',
-	},
-	{
-		title: 'Имя',
-		value: 'Иван',
-		name: 'first_name',
-		type: 'text',
-	},
-	{
-		title: 'Фамилия',
-		value: 'Иванов',
-		name: 'second_name',
-		type: 'text',
-	},
-	{
-		title: 'Имя в чате',
-		value: 'Иван',
-		name: 'display_name',
-		type: 'text',
-	},
-	{
-		title: 'Телефон',
-		value: '+7 (909) 967 30 30',
-		name: 'phone',
-		type: 'tel',
-	},
-];
+const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id']
 
-export class ChangeProfileDataPage extends Block {
-	constructor() {
-		super({});
+export class BaseChangeProfileDataPage extends Block {
+
+	setProps(nextProps: any): void {
+		super.setProps(nextProps)
+
+		const props = { ...this.props }
+
+		for (const key of profile) {
+			this.children[key].setProps({ value: props[key] })
+		}
+
 	}
 
 	init() {
 		this.children.navigation = new NavBar();
 
-		this.children.avatar = new Avatar({
-			tag: '',
-			name: 'Иван',
-		});
-
-		inputs.forEach((input) => {
-			this.children[input.name] = new Input({
-				name: input.name,
-				label: input.title,
-				placeholder: input.value,
+		for (const key of profile) {
+			this.children[key] = new Input({
+				name: key,
+				label: getLabel(key),
+				placeholder: this.props[key],
+				value: this.props[key],
 				events: {
-					input: () => {
-						(this.children[input.name] as Input).isValid();
-					},
-					focusout: () => {
-						(this.children[input.name] as Input).isValid();
-					},
 				},
 			});
-		});
+		}
 
 		this.children.button = new Button({
-			title: 'Сохранить',
+			title: 'Сохранить данные',
 			type: 'submit',
 			events: {
-				click: (e) => {
-					(this.children.button as Button).getFormData(e);
+				click: async (e: MouseEvent) => {
+					const data = (this.children.button as Button).getFormData(e);
+					try {
+						const response = await updateUserData({ payload: data })
+						const isOK = response.status;
+						if (isOK === 200) {
+							const userDataResponse = await getUserData();
+							const userData = await userDataResponse.response;
+							addUserData(userData);
+							router.go({ pathname: '/profile' });
+						}
+					} catch (e) {
+						console.log(e)
+					}
+				},
+			},
+		});
+
+		this.children.avatarButton = new Button({
+			title: 'Сохранить аватар',
+			type: 'submit',
+			events: {
+				click: async (e: MouseEvent) => {
+					e.preventDefault()
+					const form = (e.target as HTMLButtonElement).closest('form') as HTMLFormElement;
+					const fileInput = form.elements[0] as HTMLInputElement;
+					if (!fileInput.files) return
+					const avatar = fileInput.files[0]
+					const data = new FormData();
+					data.append("avatar", avatar, avatar.name)
+					try {
+						const response = await updateUserAvatar({ payload: data })
+						const isOK = response.status;
+						if (isOK === 200) {
+							const userDataResponse = await getUserData();
+							const userData = await userDataResponse.response;
+							addUserData(userData);
+							router.go({ pathname: '/profile' });
+						}
+					} catch (e) {
+						console.log(e)
+					}
 				},
 			},
 		});
@@ -88,3 +94,9 @@ export class ChangeProfileDataPage extends Block {
 		return this.compile(tmpl, this.props);
 	}
 }
+
+function mapStateToProps(state: StoreState) {
+	return { ...state.authorizedUserData };
+}
+
+export const ChangeProfileDataPage = withStore(mapStateToProps)(BaseChangeProfileDataPage);

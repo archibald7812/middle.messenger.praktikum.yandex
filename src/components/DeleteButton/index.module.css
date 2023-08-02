@@ -1,0 +1,12 @@
+@import "../../styles/constants.css";
+
+.root {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 25px;
+	color: red;
+	font-size: 10px;
+	cursor: pointer;
+}

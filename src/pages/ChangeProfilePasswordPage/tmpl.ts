@@ -6,11 +6,8 @@ export const tmpl = `
 		<main class="${styles.body}">
 			<div class="${styles.main}">
 				<form>
-						{{{avatar}}}
-						<h2>{{name}}</h2>
-						{{{old_password}}}
-						{{{password}}}
-						{{{repeat_password}}}
+						{{{oldPassword}}}
+						{{{newPassword}}}
 						{{{button}}}
 				</form>
 			</div>
