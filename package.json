@@ -18,26 +18,31 @@
 		}
 	},
 	"scripts": {
-		"dev": "parcel ./static/index.html",
-		"build": "parcel build ./static/index.html",
-		"start": "npm run build && node ./server.js",
-		"lint": "eslint ."
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview",
+		"lint": "eslint .",
+		"test": "mocha --require ts-node/register --require ./mochaSetup.cjs './src/**/*.test.ts'"
 	},
 	"keywords": [],
 	"license": "ISC",
 	"devDependencies": {
-		"@parcel/transformer-sass": "^2.8.3",
-		"@typescript-eslint/eslint-plugin": "^5.58.0",
-		"@typescript-eslint/parser": "^5.57.0",
+		"@rollup/pluginutils": "^5.0.2",
+		"@types/chai": "^4.3.5",
+		"@types/jsdom": "^21.1.1",
+		"@types/mocha": "^10.0.1",
+		"@types/sinon": "^10.0.16",
 		"browserslist": "^4.21.5",
+		"chai": "^4.3.7",
 		"eslint": "^8.38.0",
 		"eslint-config-airbnb": "^19.0.4",
 		"eslint-config-airbnb-base": "^15.0.0",
 		"eslint-plugin-import": "^2.27.5",
 		"eslint-plugin-n": "^15.7.0",
 		"eslint-plugin-promise": "^6.1.1",
+		"jsdom": "^22.1.0",
+		"mocha": "^10.2.0",
 		"nanoid": "^4.0.2",
-		"parcel": "^2.8.3",
 		"postcss": "^8.4.23",
 		"postcss-css-variables": "^0.19.0",
 		"postcss-import": "^15.1.0",
@@ -47,13 +52,20 @@
 		"postcss-scss": "^4.0.6",
 		"postcss-simple-vars": "^7.0.1",
 		"precss": "^4.0.0",
+		"sinon": "^15.2.0",
 		"stylelint": "^15.5.0",
 		"stylelint-config-standard": "^33.0.0",
 		"stylelint-config-standard-scss": "^8.0.0",
-		"typescript": "^5.0.4"
+		"ts-node": "^10.9.1",
+		"typescript": "^5.0.4",
+		"vite": "^4.4.8",
+		"vite-plugin-css-modules": "^0.0.1",
+		"vite-plugin-handlebars": "^1.6.0"
 	},
 	"dependencies": {
 		"express": "^4.18.2",
-		"handlebars": "^4.7.7"
+		"got": "^13.0.0",
+		"handlebars": "^4.7.7",
+		"lodash-es": "^4.17.21"
 	}
 }

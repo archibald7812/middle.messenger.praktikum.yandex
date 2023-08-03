@@ -2,7 +2,7 @@
 import { Error404 } from '../../pages/404/404';
 import { Route, RouteBlock } from './Route';
 
-class Router {
+export class Router {
 	private static instance: Router | null;
 
 	private history: History;

@@ -34,3 +34,27 @@ export const signOut = () => {
 };
 
 export const getUserData = () => request({ method: Methods.GET, url: '/auth/user' });
+
+/* export class AuthAPI extends API {
+	constructor() {
+		super('/auth');
+	}
+
+	signin({ payload }: { payload: any }): Promise<void> {
+		const data = payload
+		return this.http.post('/signin', data);
+	}
+
+	signup({ payload }: { payload: any }): Promise<void> {
+		const data = payload
+		return this.http.post('/signup', data);
+	}
+
+	logout(): Promise<void> {
+		return this.http.post('/logout');
+	}
+
+	getUser(): Promise<IUser> {
+		return this.http.get('/user');
+	}
+}; */
