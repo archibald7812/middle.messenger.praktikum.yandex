@@ -4,12 +4,6 @@ import Store, { Chat, Message } from './store';
 export const store = new Store();
 
 export const addUserData = (userData: any) => {
-	try {
-		userData = JSON.parse(userData);
-	} catch (e) {
-		console.log(e)
-	}
-
 	store.set('authorizedUserData', userData);
 };
 
@@ -42,7 +36,7 @@ export const addOldMessages = (messages: Message[]) => {
 	store.set('activeChaMessages', messages)
 }
 
-export const deleteChatFromSore = (chatId: number) => {
+export const deleteChatFromStore = (chatId: number) => {
 	const chats = store.getState().chats?.filter(chat => chat.id !== chatId)
 	store.set(`chats`, chats);
 }

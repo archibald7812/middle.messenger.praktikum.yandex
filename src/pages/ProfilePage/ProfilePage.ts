@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-syntax */
 import { StoreState, withStore } from '../../utils/Store/store';
-import { signOut } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
 import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
@@ -8,6 +7,7 @@ import Block from '../../utils/Block';
 import { Link } from '../../components/Link/Link';
 import { Avatar } from '../../components/Avatar/Avatar';
 import { setStoreToInitState } from '../../utils/Store/actions';
+import AuthController from '../../controllers/AuthController';
 
 export const getLabel = (key: any): string => {
 	switch (key) {
@@ -58,7 +58,7 @@ export class BaseProfilePage extends Block {
 			events: {
 				click: () => {
 					try {
-						signOut();
+						AuthController.logout()
 						setStoreToInitState()
 						const propsKeys: any = {}
 						profile.forEach(name => {

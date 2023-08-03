@@ -16,7 +16,6 @@ export class Input extends Block {
 	}
 
 	public isValid() {
-		const elem = this.element as HTMLDivElement;
 	}
 
 	render() {

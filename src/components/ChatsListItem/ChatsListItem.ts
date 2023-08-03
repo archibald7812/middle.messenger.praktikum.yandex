@@ -2,11 +2,11 @@
 import styles from './index.module.css';
 import Block from '../../utils/Block';
 import { UnreadMessages } from '../UnreadMessages/UnreadMessages';
-import { clearSocket, deleteChatFromSore, setActiveChat, setActiveSocket } from '../../utils/Store/actions';
+import { clearSocket, deleteChatFromStore, setActiveChat, setActiveSocket } from '../../utils/Store/actions';
 import { DeleteButton } from '../DeleteButton/DeleteButton';
-import { deleteChat, getToken } from '../../api/ChatsApi';
 import { StoreState, withStore } from '../../utils/Store/store';
 import { Socket } from '../../utils/Socket';
+import ChatsController from '../../controllers/ChatsController';
 
 export interface IChatsListItem {
 	id: number
@@ -30,8 +30,7 @@ export class BaseChatsListItem extends Block {
 				e.preventDefault()
 				clearSocket()
 				try {
-					const tokenResponse = await getToken(this.props.chatData.id);
-					const token = await JSON.parse(tokenResponse.response);
+					const token = await ChatsController.getToken(this.props.chatData.id)
 					const activeChat = { ...this.props.chatData, token: token.token }
 					setActiveChat(activeChat)
 				} catch (e) {
@@ -52,11 +51,11 @@ export class BaseChatsListItem extends Block {
 				click: async (e: any) => {
 					e.preventDefault()
 					try {
-						await deleteChat(this.props.chatData.id)
+						await ChatsController.deleteChat(this.props.chatData.id)
 					} catch (e) {
 						console.log(e)
 					}
-					deleteChatFromSore(this.props.chatData.id)
+					deleteChatFromStore(this.props.chatData.id)
 				}
 			}
 		});

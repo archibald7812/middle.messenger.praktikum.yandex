@@ -6,10 +6,10 @@ import Block from '../../utils/Block';
 import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
 import { InputText } from '../../components/InputText/InputText';
-import { addUsersToChat, createChat, getChats, getToken, removeUsersFromChat } from '../../api/ChatsApi';
-import { addChat, getActiveSocket } from '../../utils/Store/actions';
+import { getActiveSocket } from '../../utils/Store/actions';
 import { StoreState, withStore } from '../../utils/Store/store';
 import { ChatsList } from '../../components/ChatsList/ChatsList';
+import ChatsController from '../../controllers/ChatsController';
 
 export class BaseChatsPage extends Block {
 
@@ -42,8 +42,9 @@ export class BaseChatsPage extends Block {
 					e.preventDefault()
 					const data = this.children.inputChat.getValue()
 					try {
-						const createChatResponse = await createChat(data)
-						if (createChatResponse.status === 200) {
+						await ChatsController.createChat(data)
+						await ChatsController.getChats()
+						/* if (createChatResponse.status === 200) {
 							const chatsDataResponse = await getChats()
 							const chatsData = await chatsDataResponse.response
 							const chats = JSON.parse(chatsData)
@@ -56,7 +57,7 @@ export class BaseChatsPage extends Block {
 							const chatsWithToken = await Promise.all(chatPromises);
 
 							addChat(chatsWithToken);
-						}
+						} */
 					} catch (e) {
 						console.log(e)
 					}
@@ -82,7 +83,7 @@ export class BaseChatsPage extends Block {
 					e.preventDefault()
 					const data = this.children.inputUser.getValue()
 					try {
-						await addUsersToChat(data, this.props.activeChat.id)
+						await ChatsController.addUsersToChat(data, this.props.activeChat.id)
 					} catch (e) {
 						console.log(e)
 					}
@@ -98,7 +99,7 @@ export class BaseChatsPage extends Block {
 					e.preventDefault()
 					const data = this.children.inputUser.getValue()
 					try {
-						await removeUsersFromChat(data, this.props.activeChat.id)
+						await ChatsController.removeUsersToChat(data, this.props.activeChat.id)
 					} catch (e) {
 						console.log(e)
 					}

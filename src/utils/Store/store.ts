@@ -86,7 +86,7 @@ export default class Store extends EventBus {
 
 	set<TKey extends keyof StoreState>(path: string, value: StoreState[TKey]) {
 		set(this.state, path, value);
-		console.log('updatedStore', this.state.activeChatMessages)
+		console.log('updatedStore', this.state.activeChat)
 		this.emit(Store.EVENT_UPDATE);
 		return this;
 	}

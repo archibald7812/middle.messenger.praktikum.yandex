@@ -4,11 +4,8 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { getLabel } from '../ProfilePage/ProfilePage';
-import { updateUserPassword } from '../../api/UserApi';
-import { getUserData } from '../../api/AuthApi';
-import { addUserData } from '../../utils/Store/actions';
-import { router } from '../../utils/Router/Router';
-
+import AuthController from '../../controllers/AuthController';
+import UserController from '../../controllers/UserController';
 
 const passwords = ['oldPassword', 'newPassword']
 
@@ -37,14 +34,8 @@ export class ChangeProfilePasswordPage extends Block {
 				click: async (e: MouseEvent) => {
 					const data = (this.children.button as Button).getFormData(e);
 					try {
-						const response = await updateUserPassword({ payload: data })
-						const isOK = response.status;
-						if (isOK === 200) {
-							const userDataResponse = await getUserData();
-							const userData = await userDataResponse.response;
-							addUserData(userData);
-							router.go({ pathname: '/profile' });
-						}
+						UserController.updateUserPassword(data)
+						AuthController.fetchUser()
 					} catch (e) {
 						console.log(e)
 					}

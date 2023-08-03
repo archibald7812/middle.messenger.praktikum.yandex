@@ -5,10 +5,8 @@ import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { StoreState, withStore } from '../../utils/Store/store';
 import { getLabel } from '../ProfilePage/ProfilePage';
-import { updateUserAvatar, updateUserData } from '../../api/UserApi';
-import { getUserData } from '../../api/AuthApi';
-import { addUserData } from '../../utils/Store/actions';
-import { router } from '../../utils/Router/Router';
+import AuthController from '../../controllers/AuthController';
+import UserController from '../../controllers/UserController';
 
 const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id']
 
@@ -46,14 +44,8 @@ export class BaseChangeProfileDataPage extends Block {
 				click: async (e: MouseEvent) => {
 					const data = (this.children.button as Button).getFormData(e);
 					try {
-						const response = await updateUserData({ payload: data })
-						const isOK = response.status;
-						if (isOK === 200) {
-							const userDataResponse = await getUserData();
-							const userData = await userDataResponse.response;
-							addUserData(userData);
-							router.go({ pathname: '/profile' });
-						}
+						await UserController.updateUserData(data)
+						await AuthController.fetchUser()
 					} catch (e) {
 						console.log(e)
 					}
@@ -74,14 +66,8 @@ export class BaseChangeProfileDataPage extends Block {
 					const data = new FormData();
 					data.append("avatar", avatar, avatar.name)
 					try {
-						const response = await updateUserAvatar({ payload: data })
-						const isOK = response.status;
-						if (isOK === 200) {
-							const userDataResponse = await getUserData();
-							const userData = await userDataResponse.response;
-							addUserData(userData);
-							router.go({ pathname: '/profile' });
-						}
+						await UserController.updateUserAvatar(data)
+						await AuthController.fetchUser()
 					} catch (e) {
 						console.log(e)
 					}

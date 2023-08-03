@@ -28,7 +28,7 @@ export class Router {
 		return this;
 	}
 
-	private onRoute({ pathname }: { pathname: string }) {
+	private onRoute(pathname: string) {
 		const route = this.routes.find((route) => route.match({ pathname }));
 
 		if (route === undefined) {
@@ -53,7 +53,7 @@ export class Router {
 			if (!('location' in event.currentTarget)) return;
 			if (!(event.currentTarget.location instanceof Location)) return;
 
-			this.onRoute({ pathname: event.currentTarget.location.pathname });
+			this.onRoute(event.currentTarget.location.pathname);
 		};
 
 		window.addEventListener('click', (event) => {
@@ -66,15 +66,15 @@ export class Router {
 			const href = clickedLink.getAttribute('href');
 			if (href === null) return;
 
-			this.go({ pathname: href });
+			this.go(href);
 		});
 
-		this.onRoute({ pathname: window.location.pathname });
+		this.onRoute(window.location.pathname);
 	}
 
-	public go({ pathname }: { pathname: string }) {
+	public go(pathname: string) {
 		this.history.pushState({}, '', pathname);
-		this.onRoute({ pathname });
+		this.onRoute(pathname);
 	}
 
 	public back() {

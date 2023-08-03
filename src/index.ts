@@ -9,10 +9,9 @@ import { ChangeProfilePasswordPage } from './pages/ChangeProfilePasswordPage/Cha
 import { ChatsPage } from './pages/ChatsPage/ChatsPage';
 import { router } from './utils/Router/Router';
 import Store from './utils/Store/store';
-import { getUserData } from './api/AuthApi';
-import { addChat, addUserData } from './utils/Store/actions';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
-import { getChats } from './api/ChatsApi';
+import AuthController from './controllers/AuthController';
+import ChatsController from './controllers/ChatsController';
 
 interface CustomWindow extends Window {
 	AppStore?: Store;
@@ -23,19 +22,12 @@ window.AppStore = new Store();
 
 const start = async () => {
 	try {
-		const userDataResponse = await getUserData();
-		const userData = await userDataResponse.response;
-		const chatsDataResponse = await getChats();
-		const chatsData = await chatsDataResponse.response;
-		const chats = JSON.parse(chatsData);
-		addChat(chats);
-		const userResult = JSON.parse(userData);
-		if (userResult.reason === 'Cookie is not valid') return
-		addUserData(userData);
+		await AuthController.fetchUser()
+		await ChatsController.getChats()
 	} catch (e) {
 		console.log(e)
 	}
-	router.go({ pathname: '/messenger' });
+	router.go('/messenger');
 }
 
 start()

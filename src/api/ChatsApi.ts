@@ -1,25 +1,31 @@
-import { Methods, request } from '../utils/request';
+import { API } from './api';
 
-export const getChats = () => {
-	return request({ method: Methods.GET, url: '/chats', query: { limit: 30 } })
-};
+export class ChatsAPI extends API {
+	constructor() {
+		super('/chats');
+	}
 
-export const createChat = (value: string) => {
-	return request({ method: Methods.POST, url: '/chats', payload: { title: value } })
-};
+	getChats(): Promise<void> {
+		return this.http.get('/', { limit: 30 });
+	}
 
-export const getToken = (chatId: number) => {
-	return request({ method: Methods.POST, url: `/chats/token/${chatId}` })
-}
+	createChat(title: string) {
+		return this.http.post('/', { title });
+	}
 
-export const addUsersToChat = (users: string, chatId: number) => {
-	return request({ method: Methods.PUT, url: `/chats/users`, payload: { chatId: chatId, users: [users] } })
-}
+	deleteChat(chatId: number) {
+		return this.http.delete('/', { chatId });
+	}
 
-export const removeUsersFromChat = (users: string, chatId: number) => {
-	return request({ method: Methods.DELETE, url: `/chats/users`, payload: { chatId: chatId, users: [users] } })
-}
+	getToken(chatId: number) {
+		return this.http.post(`/token/${chatId}`);
+	}
 
-export const deleteChat = (chatId: number) => {
-	return request({ method: Methods.DELETE, url: '/chats', payload: { chatId: chatId } })
+	addUsersToChat(users: string, chatId: number) {
+		return this.http.put(`/users`, { chatId, users: [users] });
+	}
+
+	removeUsersFromChat(users: string, chatId: number) {
+		return this.http.delete(`/users`, { chatId, users: [users] });
+	}
 };
