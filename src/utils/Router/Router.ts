@@ -1,34 +1,34 @@
 /* eslint-disable no-constructor-return */
 import { Error404 } from '../../pages/404/404';
-import { Route, IRouteBlock } from './Route';
+import { Route, RouteBlock } from './Route';
 
-class Router {
+export class Router {
 	private static instance: Router | null;
 
 	private history: History;
 
-	private routes: Route[];
+	public routes: Route[];
 
 	private error404: Route;
 
-	private currentRoute: Route | null;
+	public currentRoute: Route | null;
 
 	constructor() {
 		this.history = window.history;
 		this.routes = [];
 		this.error404 = new Route({ pathname: 'any', RouteBlock: Error404 });
-		this.currentRoute = null
+		this.currentRoute = null;
 		if (Router.instance) {
 			return Router.instance;
 		}
 	}
 
-	public use({ pathname, RouteBlock }: { pathname: string; RouteBlock: IRouteBlock }) {
+	public use({ pathname, RouteBlock }: { pathname: string; RouteBlock: RouteBlock }) {
 		this.routes.push(new Route({ pathname, RouteBlock }));
 		return this;
 	}
 
-	private onRoute({ pathname }: { pathname: string }) {
+	private onRoute(pathname: string) {
 		const route = this.routes.find((route) => route.match({ pathname }));
 
 		if (route === undefined) {
@@ -36,18 +36,13 @@ class Router {
 			return;
 		}
 
-		this.routes.forEach(route => {
-			route.leave()
-		})
+		this.routes.forEach((route) => {
+			route.leave();
+		});
 
-		if (this.currentRoute) this.currentRoute.leave()
+		if (this.currentRoute) this.currentRoute.leave();
 
-		this.currentRoute = route
-
-		/* if (isCurrentPathnameProtected() && store.getState().authorizedUserData === null) {
-			this.go({ pathname: '/' });
-			return;
-		} */
+		this.currentRoute = route;
 
 		route?.render();
 	}
@@ -58,7 +53,7 @@ class Router {
 			if (!('location' in event.currentTarget)) return;
 			if (!(event.currentTarget.location instanceof Location)) return;
 
-			this.onRoute({ pathname: event.currentTarget.location.pathname });
+			this.onRoute(event.currentTarget.location.pathname);
 		};
 
 		window.addEventListener('click', (event) => {
@@ -71,15 +66,15 @@ class Router {
 			const href = clickedLink.getAttribute('href');
 			if (href === null) return;
 
-			this.go({ pathname: href });
+			this.go(href);
 		});
 
-		this.onRoute({ pathname: window.location.pathname });
+		this.onRoute(window.location.pathname);
 	}
 
-	public go({ pathname }: { pathname: string }) {
+	public go(pathname: string) {
 		this.history.pushState({}, '', pathname);
-		this.onRoute({ pathname });
+		this.onRoute(pathname);
 	}
 
 	public back() {

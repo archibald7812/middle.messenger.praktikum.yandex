@@ -3,10 +3,11 @@ export enum Methods {
 	POST = 'POST',
 	PUT = 'PUT',
 	DELETE = 'DELETE',
+	PATCH = 'PATCH'
 }
 
-interface requestParams {
-	payload?: Record<string, unknown> | any
+interface RequestParams {
+	payload?: Record<string, unknown> | unknown
 	method: Methods
 	query?: Record<string, unknown>
 	timeout?: number
@@ -19,7 +20,7 @@ export const request = ({
 	query,
 	timeout,
 	url,
-}: requestParams): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
+}: RequestParams): Promise<XMLHttpRequest> => new Promise((resolve, reject) => {
 	const requestUrl = new URL(`/api/v2${url}`, 'https://ya-praktikum.tech');
 
 	const xhr = new XMLHttpRequest();
@@ -53,15 +54,15 @@ export const request = ({
 		case Methods.DELETE: {
 			xhr.open(method, requestUrl);
 			if (payload instanceof FormData) {
-				xhr.send(payload)
+				xhr.send(payload);
 			} else {
 				xhr.setRequestHeader('Content-Type', 'application/json');
-				xhr.send(JSON.stringify(payload ?? {}))
+				xhr.send(JSON.stringify(payload ?? {}));
 			}
 			break;
 		}
 		default: {
-			console.log('fail')
+			console.log('fail');
 			break;
 		}
 	}

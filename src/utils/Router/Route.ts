@@ -8,7 +8,7 @@ import { LoginPage } from '../../pages/LoginPage/LoginPage';
 import { RegistrationPage } from '../../pages/RegistrationPage/RegistrationPage';
 import Block from '../Block';
 
-export type IRouteBlock =
+export type RouteBlock =
 	| typeof RegistrationPage
 	| typeof ProfilePage
 	| typeof LoginPage
@@ -24,16 +24,16 @@ interface CustomWindow extends Window {
 declare let window: CustomWindow;
 
 export class Route {
-	private pathname: string;
+	public pathname: string;
 
-	private RouteBlock: IRouteBlock;
+	private RouteBlock: RouteBlock;
 
-	public block: Block
+	public block: Block;
 
-	constructor({ pathname, RouteBlock }: { pathname: string; RouteBlock: IRouteBlock }) {
+	constructor({ pathname, RouteBlock }: { pathname: string; RouteBlock: RouteBlock }) {
 		this.pathname = pathname;
 		this.RouteBlock = RouteBlock;
-		this.block = new this.RouteBlock({})
+		this.block = new this.RouteBlock({});
 	}
 
 	public leave() {
@@ -56,7 +56,9 @@ export class Route {
 	public render() {
 		const root = document.querySelector('#root');
 
-		root!.innerHTML = ''
+		if (!root) return;
+
+		root.innerHTML = '';
 
 		if (root === null) {
 			throw new Error('#root is not found.');
@@ -65,12 +67,9 @@ export class Route {
 		if (!this.block) {
 			this.block = new this.RouteBlock({});
 		} else {
-			this.block.show()
+			this.block.show();
 		}
 
 		root.append(this.block.element);
-
-
-
 	}
 }

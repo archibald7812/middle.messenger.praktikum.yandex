@@ -3,7 +3,7 @@ export type Indexed<T = any> = {
 };
 
 export function merge(lhs: Indexed, rhs: Indexed): any {
-	for (let p in rhs) {
+	for (const p in rhs) {
 		if (!rhs.hasOwnProperty(p)) {
 			continue;
 		}

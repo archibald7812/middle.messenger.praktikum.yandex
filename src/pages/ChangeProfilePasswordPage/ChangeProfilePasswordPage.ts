@@ -4,13 +4,10 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { getLabel } from '../ProfilePage/ProfilePage';
-import { updateUserPassword } from '../../api/UserApi';
-import { getUserData } from '../../api/AuthApi';
-import { addUserData } from '../../utils/Store/actions';
-import { router } from '../../utils/Router/Router';
+import AuthController from '../../controllers/AuthController';
+import UserController from '../../controllers/UserController';
 
-
-const passwords = ['oldPassword', 'newPassword']
+const passwords = ['oldPassword', 'newPassword'];
 
 export class ChangeProfilePasswordPage extends Block {
 	constructor() {
@@ -34,16 +31,13 @@ export class ChangeProfilePasswordPage extends Block {
 			title: 'Сохранить',
 			type: 'submit',
 			events: {
-				click: async (e) => {
+				click: async (e: MouseEvent) => {
 					const data = (this.children.button as Button).getFormData(e);
-					console.log(data)
-					const response = await updateUserPassword({ payload: data })
-					const isOK = response.status;
-					if (isOK === 200) {
-						const userDataResponse = await getUserData();
-						const userData = await userDataResponse.response;
-						addUserData(userData);
-						router.go({ pathname: '/profile' });
+					try {
+						UserController.updateUserPassword(data);
+						AuthController.fetchUser();
+					} catch (e) {
+						console.log(e);
 					}
 				},
 			},

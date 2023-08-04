@@ -1,12 +1,13 @@
-
 import styles from './index.module.css';
 import Block from '../../utils/Block';
 import { UnreadMessages } from '../UnreadMessages/UnreadMessages';
-import { clearSocket, getActiveSocket, setActiveChat, setActiveSocket } from '../../utils/Store/actions';
+import {
+	clearSocket, deleteChatFromStore, setActiveChat, setActiveSocket,
+} from '../../utils/Store/actions';
 import { DeleteButton } from '../DeleteButton/DeleteButton';
-import { deleteChat, getToken } from '../../api/ChatsApi';
-import { IStoreState, withStore } from '../../utils/Store/store';
+import { StoreState, withStore } from '../../utils/Store/store';
 import { Socket } from '../../utils/Socket';
+import ChatsController from '../../controllers/ChatsController';
 
 export interface IChatsListItem {
 	id: number
@@ -19,24 +20,26 @@ export interface IChatsListItem {
 }
 
 export class BaseChatsListItem extends Block {
-
 	setProps(nextProps: any): void {
-		super.setProps(nextProps)
+		super.setProps(nextProps);
 	}
 
 	init() {
 		this.props.events = {
 			click: async (e: any) => {
-				e.preventDefault()
-				clearSocket()
-				const tokenResponse = await getToken(this.props.chatData.id);
-				const token = await JSON.parse(tokenResponse.response);
-				const activeChat = { ...this.props.chatData, token: token.token }
-				setActiveChat(activeChat)
-				const socket = new Socket()
-				setActiveSocket(socket)
-			}
-		}
+				e.preventDefault();
+				clearSocket();
+				try {
+					const token = await ChatsController.getToken(this.props.chatData.id);
+					const activeChat = { ...this.props.chatData, token: token.token };
+					setActiveChat(activeChat);
+				} catch (e) {
+					console.log(e);
+				}
+				const socket = new Socket();
+				setActiveSocket(socket);
+			},
+		};
 
 		this.children.unreadMessages = new UnreadMessages({
 			unreadMessages: this.props.chatData?.unread_count,
@@ -46,10 +49,15 @@ export class BaseChatsListItem extends Block {
 			title: 'Удалить',
 			events: {
 				click: async (e: any) => {
-					e.preventDefault()
-					await deleteChat(this.props.chatData.id)
-				}
-			}
+					e.preventDefault();
+					try {
+						await ChatsController.deleteChat(this.props.chatData.id);
+					} catch (e) {
+						console.log(e);
+					}
+					deleteChatFromStore(this.props.chatData.id);
+				},
+			},
 		});
 	}
 
@@ -72,9 +80,8 @@ export class BaseChatsListItem extends Block {
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: StoreState) {
 	return { activeChat: state.activeChat };
 }
 
 export const ChatsListItem = withStore(mapStateToProps)(BaseChatsListItem);
-

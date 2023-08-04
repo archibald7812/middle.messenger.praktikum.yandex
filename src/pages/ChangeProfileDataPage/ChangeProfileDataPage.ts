@@ -3,26 +3,22 @@ import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
-import { IStoreState, withStore } from '../../utils/Store/store';
+import { StoreState, withStore } from '../../utils/Store/store';
 import { getLabel } from '../ProfilePage/ProfilePage';
-import { updateUserAvatar, updateUserData } from '../../api/UserApi';
-import { getUserData } from '../../api/AuthApi';
-import { addUserData } from '../../utils/Store/actions';
-import { router } from '../../utils/Router/Router';
+import AuthController from '../../controllers/AuthController';
+import UserController from '../../controllers/UserController';
 
-const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id']
+const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id'];
 
 export class BaseChangeProfileDataPage extends Block {
-
 	setProps(nextProps: any): void {
-		super.setProps(nextProps)
+		super.setProps(nextProps);
 
-		const props = { ...this.props }
+		const props = { ...this.props };
 
 		for (const key of profile) {
-			this.children[key].setProps({ value: props[key] })
+			this.children[key].setProps({ value: props[key] });
 		}
-
 	}
 
 	init() {
@@ -43,15 +39,13 @@ export class BaseChangeProfileDataPage extends Block {
 			title: 'Сохранить данные',
 			type: 'submit',
 			events: {
-				click: async (e) => {
+				click: async (e: MouseEvent) => {
 					const data = (this.children.button as Button).getFormData(e);
-					const response = await updateUserData({ payload: data })
-					const isOK = response.status;
-					if (isOK === 200) {
-						const userDataResponse = await getUserData();
-						const userData = await userDataResponse.response;
-						addUserData(userData);
-						router.go({ pathname: '/profile' });
+					try {
+						await UserController.updateUserData(data);
+						await AuthController.fetchUser();
+					} catch (e) {
+						console.log(e);
 					}
 				},
 			},
@@ -61,21 +55,19 @@ export class BaseChangeProfileDataPage extends Block {
 			title: 'Сохранить аватар',
 			type: 'submit',
 			events: {
-				click: async (e) => {
-					e.preventDefault()
+				click: async (e: MouseEvent) => {
+					e.preventDefault();
 					const form = (e.target as HTMLButtonElement).closest('form') as HTMLFormElement;
 					const fileInput = form.elements[0] as HTMLInputElement;
-					if (!fileInput.files) return
-					const avatar = fileInput.files[0]
+					if (!fileInput.files) return;
+					const avatar = fileInput.files[0];
 					const data = new FormData();
-					data.append("avatar", avatar, avatar.name)
-					const response = await updateUserAvatar({ payload: data })
-					const isOK = response.status;
-					if (isOK === 200) {
-						const userDataResponse = await getUserData();
-						const userData = await userDataResponse.response;
-						addUserData(userData);
-						router.go({ pathname: '/profile' });
+					data.append('avatar', avatar, avatar.name);
+					try {
+						await UserController.updateUserAvatar(data);
+						await AuthController.fetchUser();
+					} catch (e) {
+						console.log(e);
 					}
 				},
 			},
@@ -87,9 +79,8 @@ export class BaseChangeProfileDataPage extends Block {
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: StoreState) {
 	return { ...state.authorizedUserData };
 }
 
 export const ChangeProfileDataPage = withStore(mapStateToProps)(BaseChangeProfileDataPage);
-

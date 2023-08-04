@@ -3,14 +3,7 @@ import { validationFunc } from '../../utils/validation/validation';
 import { tmpl } from './tmpl';
 import Block from '../../utils/Block';
 
-interface IButton {
-	title: string
-	type?: string
-	events?: Record<string, (event: MouseEvent) => void>
-}
-
 export class Button extends Block {
-
 	public getFormData(event: MouseEvent) {
 		event.preventDefault();
 		if (!event.target) return;

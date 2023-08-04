@@ -1,4 +1,4 @@
-import { withStore, IStoreState, IChat } from '../../utils/Store/store';
+import { withStore, StoreState } from '../../utils/Store/store';
 import Block from '../../utils/Block';
 import styles from './index.module.css';
 import { ChatsListItem } from '../ChatsListItem/ChatsListItem';
@@ -14,15 +14,13 @@ export interface IChatsListItem {
 }
 
 export class BaseChatsList extends Block {
-
 	setProps(nextProps: any): void {
-
 		const newChats = nextProps.chats.filter((item: any) => {
-			if (this.props.chats.find((chat: any) => chat.id === item.id)) return false
-			else return true
-		})
+			if (this.props.chats.find((chat: any) => chat.id === item.id)) return false;
+			return true;
+		});
 
-		super.setProps(nextProps)
+		super.setProps(nextProps);
 
 		newChats.forEach((chat: any) => {
 			this.children[`chatsListItem${chat.id}`] = new ChatsListItem({
@@ -31,10 +29,10 @@ export class BaseChatsList extends Block {
 					title: chat.title,
 					last_message: chat.last_message,
 					unread_count: chat.unread_count,
-					isActive: chat.id === this.props.activeChat?.id ? true : false
-				}
-			})
-		})
+					isActive: chat.id === this.props.activeChat?.id,
+				},
+			});
+		});
 	}
 
 	init() {
@@ -45,24 +43,25 @@ export class BaseChatsList extends Block {
 					title: chat.title,
 					last_message: chat.last_message,
 					unread_count: chat.unread_count,
-					isActive: chat.id === this.props.activeChat.id ? true : false
-				}
-			})
-		})
+					isActive: chat.id === this.props.activeChat.id,
+				},
+			});
+		});
 	}
 
 	render() {
-		return this.compile(`
+		return this.compile(
+			`
 			<div class='${styles.root}'>
 				${this.props.chats.map((chat: any) => `{{{chatsListItem${chat.id}}}}`).join('')}
-			</div>`
-			, this.props);
+			</div>`,
+			this.props,
+		);
 	}
 }
 
-function mapStateToProps(state: IStoreState) {
+function mapStateToProps(state: StoreState) {
 	return { chats: state.chats, activeChat: state.activeChat };
 }
 
 export const ChatsList = withStore(mapStateToProps)(BaseChatsList);
-
