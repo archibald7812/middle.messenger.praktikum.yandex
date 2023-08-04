@@ -45,8 +45,6 @@ class AuthController {
 		const user = await this.api.getUser();
 
 		addUserData(user);
-
-		router.go('/profile');
 	}
 }
 
