@@ -120,7 +120,7 @@ export default class Block<P extends Record<string, any> = any> {
 
 	protected componentDidUpdate(oldProps: P, newProps: P) {
 		if (oldProps === newProps) {
-
+			return true;
 		}
 		return true;
 	}
@@ -130,10 +130,10 @@ export default class Block<P extends Record<string, any> = any> {
 			return;
 		}
 
-		const { children, props } = this._getChildrenAndProps(nextProps)
+		const { children, props } = this._getChildrenAndProps(nextProps);
 
-		merge(this.children, children)
-		merge(this.props, props)
+		merge(this.children, children);
+		merge(this.props, props);
 	}
 
 	get element() {

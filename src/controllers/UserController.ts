@@ -6,7 +6,6 @@ class UserController {
 	async updateUserData(data: unknown) {
 		try {
 			await this.api.updateUserData(data);
-
 		} catch (error) {
 			console.log(error);
 		}
@@ -15,7 +14,6 @@ class UserController {
 	async updateUserAvatar(data: unknown) {
 		try {
 			await this.api.updateUserAvatar(data);
-
 		} catch (error) {
 			console.log(error);
 		}
@@ -24,7 +22,6 @@ class UserController {
 	async updateUserPassword(data: unknown) {
 		try {
 			await this.api.updateUserPassword(data);
-
 		} catch (error) {
 			console.log(error);
 		}

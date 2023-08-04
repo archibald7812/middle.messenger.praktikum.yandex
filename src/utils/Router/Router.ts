@@ -7,17 +7,17 @@ export class Router {
 
 	private history: History;
 
-	private routes: Route[];
+	public routes: Route[];
 
 	private error404: Route;
 
-	private currentRoute: Route | null;
+	public currentRoute: Route | null;
 
 	constructor() {
 		this.history = window.history;
 		this.routes = [];
 		this.error404 = new Route({ pathname: 'any', RouteBlock: Error404 });
-		this.currentRoute = null
+		this.currentRoute = null;
 		if (Router.instance) {
 			return Router.instance;
 		}
@@ -36,13 +36,13 @@ export class Router {
 			return;
 		}
 
-		this.routes.forEach(route => {
-			route.leave()
-		})
+		this.routes.forEach((route) => {
+			route.leave();
+		});
 
-		if (this.currentRoute) this.currentRoute.leave()
+		if (this.currentRoute) this.currentRoute.leave();
 
-		this.currentRoute = route
+		this.currentRoute = route;
 
 		route?.render();
 	}

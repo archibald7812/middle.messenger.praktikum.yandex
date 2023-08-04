@@ -14,6 +14,7 @@ type Options = {
 
 export class HTTPTransport {
 	static API_URL = 'https://ya-praktikum.tech/api/v2';
+
 	protected endpoint: string;
 
 	constructor(endpoint: string) {
@@ -23,7 +24,7 @@ export class HTTPTransport {
 	public get<Response>(path = '/', query: any = null): Promise<Response> {
 		return this.request<Response>(this.endpoint + path, {
 			query,
-			method: Methods.GET
+			method: Methods.GET,
 		});
 	}
 
@@ -61,9 +62,8 @@ export class HTTPTransport {
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
 
-			//@ts-expect-error
+			// @ts-expect-error
 			xhr.onreadystatechange = (e) => {
-
 				if (xhr.readyState === XMLHttpRequest.DONE) {
 					if (xhr.status < 400) {
 						resolve(xhr.response);
@@ -93,10 +93,10 @@ export class HTTPTransport {
 			} else {
 				xhr.open(method, url);
 				if (data instanceof FormData) {
-					xhr.send(data)
+					xhr.send(data);
 				} else {
 					xhr.setRequestHeader('Content-Type', 'application/json');
-					xhr.send(JSON.stringify(data ?? {}))
+					xhr.send(JSON.stringify(data ?? {}));
 				}
 			}
 		});

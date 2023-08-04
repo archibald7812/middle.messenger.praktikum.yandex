@@ -1,4 +1,3 @@
-import { Methods, request } from '../utils/request';
 import { API } from './api';
 
 export type IUser = {
@@ -12,18 +11,6 @@ export type IUser = {
 	phone: string
 }
 
-export const updateUserData = ({ payload }: { payload: any }) => {
-	return request({ method: Methods.PUT, url: '/user/profile', payload })
-};
-
-export const updateUserAvatar = ({ payload }: { payload: any }) => {
-	return request({ method: Methods.PUT, url: '/user/profile/avatar', payload })
-};
-
-export const updateUserPassword = ({ payload }: { payload: any }) => {
-	return request({ method: Methods.PUT, url: '/user/password', payload })
-};
-
 export class UserAPI extends API {
 	constructor() {
 		super('/user');
@@ -36,7 +23,8 @@ export class UserAPI extends API {
 	updateUserAvatar(data: unknown): Promise<void> {
 		return this.http.put('/profile/avatar', data);
 	}
+
 	updateUserPassword(data: unknown): Promise<void> {
 		return this.http.put('/password', data);
 	}
-};
+}

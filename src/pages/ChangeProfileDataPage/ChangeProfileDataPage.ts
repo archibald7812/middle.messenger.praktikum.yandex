@@ -8,19 +8,17 @@ import { getLabel } from '../ProfilePage/ProfilePage';
 import AuthController from '../../controllers/AuthController';
 import UserController from '../../controllers/UserController';
 
-const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id']
+const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'id'];
 
 export class BaseChangeProfileDataPage extends Block {
-
 	setProps(nextProps: any): void {
-		super.setProps(nextProps)
+		super.setProps(nextProps);
 
-		const props = { ...this.props }
+		const props = { ...this.props };
 
 		for (const key of profile) {
-			this.children[key].setProps({ value: props[key] })
+			this.children[key].setProps({ value: props[key] });
 		}
-
 	}
 
 	init() {
@@ -44,10 +42,10 @@ export class BaseChangeProfileDataPage extends Block {
 				click: async (e: MouseEvent) => {
 					const data = (this.children.button as Button).getFormData(e);
 					try {
-						await UserController.updateUserData(data)
-						await AuthController.fetchUser()
+						await UserController.updateUserData(data);
+						await AuthController.fetchUser();
 					} catch (e) {
-						console.log(e)
+						console.log(e);
 					}
 				},
 			},
@@ -58,18 +56,18 @@ export class BaseChangeProfileDataPage extends Block {
 			type: 'submit',
 			events: {
 				click: async (e: MouseEvent) => {
-					e.preventDefault()
+					e.preventDefault();
 					const form = (e.target as HTMLButtonElement).closest('form') as HTMLFormElement;
 					const fileInput = form.elements[0] as HTMLInputElement;
-					if (!fileInput.files) return
-					const avatar = fileInput.files[0]
+					if (!fileInput.files) return;
+					const avatar = fileInput.files[0];
 					const data = new FormData();
-					data.append("avatar", avatar, avatar.name)
+					data.append('avatar', avatar, avatar.name);
 					try {
-						await UserController.updateUserAvatar(data)
-						await AuthController.fetchUser()
+						await UserController.updateUserAvatar(data);
+						await AuthController.fetchUser();
 					} catch (e) {
-						console.log(e)
+						console.log(e);
 					}
 				},
 			},

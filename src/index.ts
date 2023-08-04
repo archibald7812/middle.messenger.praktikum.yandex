@@ -22,15 +22,15 @@ window.AppStore = new Store();
 
 const start = async () => {
 	try {
-		await AuthController.fetchUser()
-		await ChatsController.getChats()
+		await AuthController.fetchUser();
+		await ChatsController.getChats();
 	} catch (e) {
-		console.log(e)
+		console.log(e);
 	}
 	router.go('/messenger');
-}
+};
 
-start()
+start();
 
 window.addEventListener('DOMContentLoaded', () => {
 	router

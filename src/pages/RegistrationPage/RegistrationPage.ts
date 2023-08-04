@@ -76,11 +76,10 @@ export class RegistrationPage extends Block {
 					try {
 						const data = (this.children.button as Button).getFormData(e);
 						if (!data) return;
-						AuthController.signup(data)
+						AuthController.signup(data);
 					} catch (e) {
-						console.log(e)
+						console.log(e);
 					}
-
 				},
 			},
 		});

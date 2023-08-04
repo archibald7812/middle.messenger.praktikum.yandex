@@ -51,11 +51,11 @@ export class LoginPage extends Block {
 				click: async (e: MouseEvent) => {
 					try {
 						const data = (this.children.button as Button).getFormData(e);
-						await AuthController.signin(data)
-						await ChatsController.getChats()
+						await AuthController.signin(data);
+						await ChatsController.getChats();
 						router.go('/messenger');
 					} catch (e) {
-						console.log(e)
+						console.log(e);
 					}
 				},
 			},

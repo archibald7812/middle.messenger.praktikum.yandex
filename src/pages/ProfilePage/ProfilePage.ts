@@ -11,32 +11,30 @@ import AuthController from '../../controllers/AuthController';
 
 export const getLabel = (key: any): string => {
 	switch (key) {
-		case 'email': return 'Почта'
-		case 'login': return 'Логин'
-		case 'first_name': return 'Имя'
-		case 'second_name': return 'Фамилия'
-		case 'display_name': return 'Имя в чате'
-		case 'phone': return 'Телефон'
-		case 'oldPassword': return 'Старый пароль'
-		case 'newPassword': return 'Новый пароль'
-		default: return ''
+		case 'email': return 'Почта';
+		case 'login': return 'Логин';
+		case 'first_name': return 'Имя';
+		case 'second_name': return 'Фамилия';
+		case 'display_name': return 'Имя в чате';
+		case 'phone': return 'Телефон';
+		case 'oldPassword': return 'Старый пароль';
+		case 'newPassword': return 'Новый пароль';
+		default: return '';
 	}
-}
+};
 
-const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'avatar', 'id']
+const profile = ['email', 'login', 'first_name', 'second_name', 'display_name', 'phone', 'avatar', 'id'];
 
 export class BaseProfilePage extends Block {
-
 	setProps(nextProps: any): void {
-		super.setProps(nextProps)
+		super.setProps(nextProps);
 
-		const props = { ...this.props }
+		const props = { ...this.props };
 
 		for (const key in props) {
-			if (key === 'avatar') this.children.avatar.setProps({ src: props[key] })
-			else this.children[key].setProps({ placeholder: props[key] })
+			if (key === 'avatar') this.children.avatar.setProps({ src: props[key] });
+			else this.children[key].setProps({ placeholder: props[key] });
 		}
-
 	}
 
 	init() {
@@ -58,15 +56,15 @@ export class BaseProfilePage extends Block {
 			events: {
 				click: () => {
 					try {
-						AuthController.logout()
-						setStoreToInitState()
-						const propsKeys: any = {}
-						profile.forEach(name => {
-							propsKeys[name] = null
-						})
-						this.setProps(propsKeys)
+						AuthController.logout();
+						setStoreToInitState();
+						const propsKeys: any = {};
+						profile.forEach((name) => {
+							propsKeys[name] = null;
+						});
+						this.setProps(propsKeys);
 					} catch (e) {
-						console.log(e)
+						console.log(e);
 					}
 				},
 			},
@@ -77,7 +75,7 @@ export class BaseProfilePage extends Block {
 				this.children.avatar = new Avatar({
 					src: this.props.avatar,
 					tag: '',
-				})
+				});
 			} else {
 				this.children[key] = new Input({
 					name: key,

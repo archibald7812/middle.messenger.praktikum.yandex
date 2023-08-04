@@ -7,7 +7,7 @@ import { getLabel } from '../ProfilePage/ProfilePage';
 import AuthController from '../../controllers/AuthController';
 import UserController from '../../controllers/UserController';
 
-const passwords = ['oldPassword', 'newPassword']
+const passwords = ['oldPassword', 'newPassword'];
 
 export class ChangeProfilePasswordPage extends Block {
 	constructor() {
@@ -34,10 +34,10 @@ export class ChangeProfilePasswordPage extends Block {
 				click: async (e: MouseEvent) => {
 					const data = (this.children.button as Button).getFormData(e);
 					try {
-						UserController.updateUserPassword(data)
-						AuthController.fetchUser()
+						UserController.updateUserPassword(data);
+						AuthController.fetchUser();
 					} catch (e) {
-						console.log(e)
+						console.log(e);
 					}
 				},
 			},

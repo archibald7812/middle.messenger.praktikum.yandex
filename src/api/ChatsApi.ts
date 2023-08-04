@@ -22,10 +22,10 @@ export class ChatsAPI extends API {
 	}
 
 	addUsersToChat(users: string, chatId: number) {
-		return this.http.put(`/users`, { chatId, users: [users] });
+		return this.http.put('/users', { chatId, users: [users] });
 	}
 
 	removeUsersFromChat(users: string, chatId: number) {
-		return this.http.delete(`/users`, { chatId, users: [users] });
+		return this.http.delete('/users', { chatId, users: [users] });
 	}
-};
+}

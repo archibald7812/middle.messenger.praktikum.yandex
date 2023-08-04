@@ -2,7 +2,6 @@ import { tmpl } from './tmpl';
 import Block from '../../utils/Block';
 
 export class InputText extends Block {
-
 	public setValue(value: string) {
 		return (this.element.children[0] as HTMLInputElement).value = value;
 	}
@@ -17,6 +16,7 @@ export class InputText extends Block {
 
 	public isValid() {
 		const elem = this.element as HTMLDivElement;
+		console.log(elem);
 	}
 
 	render() {

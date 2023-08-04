@@ -31,4 +31,4 @@ export class AuthAPI extends API {
 	getUser(): Promise<IUser> {
 		return this.http.get('/user');
 	}
-};
+}

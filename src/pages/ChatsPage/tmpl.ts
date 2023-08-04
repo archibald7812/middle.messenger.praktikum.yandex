@@ -34,4 +34,4 @@ export const tmpl = `
 	</div>
 `;
 
-//<img src=${attach}} alt='Выберите файл'/>
+// <img src=${attach}} alt='Выберите файл'/>

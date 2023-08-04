@@ -9,12 +9,12 @@ describe('HTTPTransport test', () => {
 	beforeEach(() => {
 		xhr = sinon.useFakeXMLHttpRequest();
 
-		//@ts-expect-error
+		// @ts-expect-error
 		global.XMLHttpRequest = xhr;
 
 		xhr.onCreate = (req) => {
 			requests.push(req);
-		}
+		};
 
 		instance = new HTTPTransport('');
 	});

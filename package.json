@@ -1,4 +1,9 @@
 {
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run test && npm run lint"
+		}
+	},
 	"author": "vladislav-rozov",
 	"version": "1.0.0",
 	"description": "",
@@ -32,6 +37,7 @@
 		"@types/jsdom": "^21.1.1",
 		"@types/mocha": "^10.0.1",
 		"@types/sinon": "^10.0.16",
+		"@typescript-eslint/eslint-plugin": "^6.2.1",
 		"browserslist": "^4.21.5",
 		"chai": "^4.3.7",
 		"eslint": "^8.38.0",
@@ -40,6 +46,7 @@
 		"eslint-plugin-import": "^2.27.5",
 		"eslint-plugin-n": "^15.7.0",
 		"eslint-plugin-promise": "^6.1.1",
+		"husky": "^8.0.3",
 		"jsdom": "^22.1.0",
 		"mocha": "^10.2.0",
 		"nanoid": "^3.3.6",

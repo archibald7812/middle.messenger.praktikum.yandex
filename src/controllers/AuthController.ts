@@ -36,23 +36,17 @@ class AuthController {
 			store.set('user', undefined);
 
 			router.go('/');
-
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
 	async fetchUser() {
-		try {
-			const user = await this.api.getUser();
+		const user = await this.api.getUser();
 
-			addUserData(user)
+		addUserData(user);
 
-			router.go('/profile')
-
-		} catch (error) {
-			throw error;
-		}
+		router.go('/profile');
 	}
 }
 
