@@ -26,7 +26,7 @@
 
 ```
 npm install
-npm run dev
+npm run start
 ```
 
 После запуска приложение будет доступно по адресу `http://localhost:5173`.
