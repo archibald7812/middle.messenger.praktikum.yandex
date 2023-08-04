@@ -1,9 +1,4 @@
 {
-	"husky": {
-		"hooks": {
-			"pre-commit": "npm run test && npm run lint"
-		}
-	},
 	"author": "vladislav-rozov",
 	"version": "1.0.0",
 	"description": "",
@@ -27,7 +22,8 @@
 		"build": "vite build",
 		"serve": "vite preview",
 		"lint": "eslint .",
-		"test": "mocha --require ts-node/register --require ./mochaSetup.cjs './src/**/*.test.ts'"
+		"test": "mocha --require ts-node/register --require ./mochaSetup.cjs './src/**/*.test.ts'",
+		"prepare": "husky install"
 	},
 	"keywords": [],
 	"license": "ISC",
