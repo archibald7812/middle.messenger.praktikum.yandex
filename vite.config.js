@@ -4,4 +4,7 @@ export default {
 	plugins: [
 		handlebars(),
 	],
+	server: {
+		port: 3000,
+	},
 };
