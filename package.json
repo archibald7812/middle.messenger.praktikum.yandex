@@ -18,12 +18,14 @@
 		}
 	},
 	"scripts": {
-		"start": "vite",
+		"dev": "vite",
 		"build": "vite build",
 		"serve": "vite preview",
 		"lint": "eslint .",
+		"stylelint": "npx stylelint './src/**/*.css'",
 		"test": "mocha --require ts-node/register --require ./mochaSetup.cjs './src/**/*.test.ts'",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"start": "npm run build  && node ./server.js"
 	},
 	"keywords": [],
 	"license": "ISC",
@@ -46,7 +48,7 @@
 		"jsdom": "^22.1.0",
 		"mocha": "^10.2.0",
 		"nanoid": "^3.3.6",
-		"postcss": "^8.4.23",
+		"postcss": "^8.4.27",
 		"postcss-css-variables": "^0.19.0",
 		"postcss-import": "^15.1.0",
 		"postcss-modules": "^4.3.1",
@@ -54,7 +56,6 @@
 		"postcss-normalize": "^10.0.1",
 		"postcss-scss": "^4.0.6",
 		"postcss-simple-vars": "^7.0.1",
-		"precss": "^4.0.0",
 		"sinon": "^15.2.0",
 		"stylelint": "^15.5.0",
 		"stylelint-config-standard": "^33.0.0",
