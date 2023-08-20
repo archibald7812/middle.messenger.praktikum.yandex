@@ -52,7 +52,7 @@ export const initialState: StoreState = {
 	activeChatParticipants: [],
 	authorizedUserData: null,
 	activeSocket: null,
-	chats: []
+	chats: [],
 };
 
 export default class Store extends EventBus {
@@ -86,7 +86,7 @@ export default class Store extends EventBus {
 
 	set<TKey extends keyof StoreState>(path: string, value: StoreState[TKey]) {
 		set(this.state, path, value);
-		console.log('updatedStore', this.state.activeChatMessages)
+		console.log('updatedStore', this.state.activeChat);
 		this.emit(Store.EVENT_UPDATE);
 		return this;
 	}
@@ -95,16 +95,14 @@ export default class Store extends EventBus {
 const store = new Store();
 
 export function withStore(mapStateToProps: (state: StoreState) => any) {
-	return (Component: typeof Block) => {
-		return class extends Component {
-			constructor(props: any) {
-				super({ ...props, ...mapStateToProps(store.getState()) });
+	return (Component: typeof Block) => class extends Component {
+		constructor(props: any) {
+			super({ ...props, ...mapStateToProps(store.getState()) });
 
-				store.on(Store.EVENT_UPDATE, () => {
-					const propsFromState = mapStateToProps(store.getState());
-					this.setProps(propsFromState);
-				});
-			}
+			store.on(Store.EVENT_UPDATE, () => {
+				const propsFromState = mapStateToProps(store.getState());
+				this.setProps(propsFromState);
+			});
 		}
-	}
+	};
 }

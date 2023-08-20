@@ -4,7 +4,6 @@ import { tmpl } from './tmpl';
 import Block from '../../utils/Block';
 
 export class Button extends Block {
-
 	public getFormData(event: MouseEvent) {
 		event.preventDefault();
 		if (!event.target) return;

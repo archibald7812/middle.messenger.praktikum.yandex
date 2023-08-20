@@ -1,5 +1,4 @@
 export function isEqual(obj1: any, obj2: any): boolean {
-
 	if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
 		return false;
 	}

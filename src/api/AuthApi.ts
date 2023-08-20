@@ -1,18 +1,4 @@
-import { Methods, request } from '../utils/request';
-
-export type ISignUpPayload = {
-	email: string
-	first_name: string
-	login: string
-	password: string
-	phone: string
-	second_name: string
-}
-
-export type ISignInPayload = {
-	login: string
-	password: string
-}
+import { API } from './api';
 
 export type IUser = {
 	id: number
@@ -25,12 +11,24 @@ export type IUser = {
 	phone: string
 }
 
-export const signUp = ({ payload }: { payload: any }) => request({ method: Methods.POST, url: '/auth/signup', payload });
+export class AuthAPI extends API {
+	constructor() {
+		super('/auth');
+	}
 
-export const signIn = ({ payload }: { payload: any }) => request({ method: Methods.POST, url: '/auth/signin', payload });
+	signin(data: unknown): Promise<void> {
+		return this.http.post('/signin', data);
+	}
 
-export const signOut = () => {
-	request({ method: Methods.POST, url: '/auth/logout' });
-};
+	signup(data: unknown): Promise<void> {
+		return this.http.post('/signup', data);
+	}
 
-export const getUserData = () => request({ method: Methods.GET, url: '/auth/user' });
+	logout(): Promise<void> {
+		return this.http.post('/logout');
+	}
+
+	getUser(): Promise<IUser> {
+		return this.http.get('/user');
+	}
+}

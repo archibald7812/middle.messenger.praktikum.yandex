@@ -1,4 +1,7 @@
 {
+	"ts-node": {
+		"files": true
+	},
 	"compilerOptions": {
 		"allowJs": true,
 		"baseUrl": ".",
@@ -7,11 +10,11 @@
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": false,
 		"lib": [
-			"dom",
-			"dom.iterable",
-			"esnext"
+			"ES2020",
+			"DOM",
+			"DOM.Iterable"
 		],
-		"module": "CommonJS",
+		"module": "commonjs",
 		"moduleResolution": "node",
 		"noEmit": true,
 		"noEmitOnError": true,
@@ -27,7 +30,7 @@
 		"strictFunctionTypes": true,
 		"strictNullChecks": true,
 		"suppressExcessPropertyErrors": false,
-		"target": "es6"
+		"target": "es2016",
 	},
 	"exclude": [
 		"node_modules",
@@ -35,8 +38,9 @@
 		".parcel-cache"
 	],
 	"include": [
-		"./**/*.ts",
-		"./src/*.ts",
-		".eslintrc.js"
+		"src",
+		".eslintrc.js",
+		"./src/**/*.ts",
+		"vite.config.js"
 	]
 }

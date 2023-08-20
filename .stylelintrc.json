@@ -14,7 +14,7 @@
 		"scss/dollar-variable-pattern": "^.*$",
 		"custom-property-pattern": null,
 		"rule-empty-line-before": null,
-		"color-function-notation":null,
-		"selector-class-pattern":null
+		"color-function-notation": null,
+		"selector-class-pattern": null
 	}
 }

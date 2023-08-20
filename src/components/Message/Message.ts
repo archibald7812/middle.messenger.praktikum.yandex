@@ -11,7 +11,6 @@ export interface IMessage {
 }
 
 export class Message extends Block {
-
 	render() {
 		return this.compile(`
 		<div class='${styles.root}

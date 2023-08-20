@@ -1,11 +1,10 @@
-import { router } from '../../utils/Router/Router';
-import { getUserData, signIn, signUp } from '../../api/AuthApi';
 import { Input } from '../../components/Input/Input';
 import { tmpl } from './tmpl';
 import { NavBar } from '../../components/NavBar/NavBar';
 import Block from '../../utils/Block';
 import { Button } from '../../components/Button/Button';
 import { Link } from '../../components/Link/Link';
+import AuthController from '../../controllers/AuthController';
 
 const inputs = [
 	{
@@ -73,19 +72,14 @@ export class RegistrationPage extends Block {
 			title: 'Регистрация',
 			type: 'submit',
 			events: {
-				click: async (e: MouseEvent) => {
+				click: (e: MouseEvent) => {
 					try {
-						const payload = (this.children.button as Button).getFormData(e);
-						if (!payload) return;
-						const response = await signUp({ payload });
-						if (response.status === 200) {
-							await getUserData();
-							router.go({ pathname: '/profile' });
-						}
+						const data = (this.children.button as Button).getFormData(e);
+						if (!data) return;
+						AuthController.signup(data);
 					} catch (e) {
-						console.log(e)
+						console.log(e);
 					}
-
 				},
 			},
 		});
